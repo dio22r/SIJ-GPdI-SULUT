@@ -1,0 +1,39 @@
+.navbar-brand img {
+    height: 25px;
+    margin-top: -3px;
+    margin-right: 5px;
+}
+
+.bg-bts {
+    background: #374774;
+    border-bottom: 2px solid #ffc93d;
+}
+
+.bg-bts-copyright {
+    border-top: 2px solid #ffc93d;
+}
+
+.bg-bts-sec {
+    background: #ffc93d;
+}
+
+.text-bts {
+    color: #374774;
+}
+
+.bts-admin.nav-link.active,
+.bts-admin.nav-link:hover {
+    background: #ffc93d;
+    color: #374774 !important;
+    font-weight: bold;
+}
+
+.bts-admin.nav-link.active .sb-nav-link-icon,
+.bts-admin.nav-link:hover .sb-nav-link-icon {
+    color: #374774 !important;
+    font-weight: bold;
+}
+
+.bts-copyright {
+    font-size: 12px;
+}
