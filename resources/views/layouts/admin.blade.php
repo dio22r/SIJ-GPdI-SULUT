@@ -33,7 +33,7 @@
             <footer class="py-3 bg-bts-copyright bg-light bts-copyright mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between">
-                        <div class="text-bts">Copyright &copy; {{ config('app.name', 'Laravel') }} 2021</div>
+                        <div class="text-bts">Copyright &copy; {{ config('app.name', 'Laravel') }} {{ date('Y') }}</div>
                         <div class="text-bts">Supported by Jesus Christ My Savior</div>
                     </div>
                 </div>

@@ -2,14 +2,20 @@
     <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
+                @foreach($sidemenu as $menu)
 
-                <a class="nav-link @if (Request::is('home')) active @endif" href="{{ route('home') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                    Dashboard
+                @if($menu->type == 1)
+                <div class="sb-sidenav-menu-heading">{{ $menu->name }}</div>
+                @else
+                <a class="nav-link @if (Request::is($menu->code)) active @endif" href="{{ url($menu->code) }}">
+                    <div class="sb-nav-link-icon" style="width:20px">
+                        <i class="{{ $menu->icon }}"></i>
+                    </div>
+                    {{ $menu->name }}
                 </a>
+                @endif
 
-                <!-- <div class="sb-sidenav-menu-heading">Master</div> -->
-
+                @endforeach
 
             </div>
         </div>
