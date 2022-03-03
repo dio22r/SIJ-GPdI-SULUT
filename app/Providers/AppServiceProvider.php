@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Menu;
-use View;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        View::composer('*', function ($view) {
+        View::composer('panel.sidenav', function ($view) {
             $sidemenu = Menu::orderBy('order')->get();
             $view->with('sidemenu', $sidemenu);
         });

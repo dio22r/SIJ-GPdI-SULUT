@@ -7,7 +7,7 @@
                 @if($menu->type == 1)
                 <div class="sb-sidenav-menu-heading">{{ $menu->name }}</div>
                 @else
-                <a class="nav-link @if (Request::is($menu->code)) active @endif" href="{{ url($menu->code) }}">
+                <a class="nav-link @if (Request::is('admin/' . $menu->code . '*')) active @endif" href="{{ url('admin/' . $menu->code) }}">
                     <div class="sb-nav-link-icon" style="width:20px">
                         <i class="{{ $menu->icon }}"></i>
                     </div>
