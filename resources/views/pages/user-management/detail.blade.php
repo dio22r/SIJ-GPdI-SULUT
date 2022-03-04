@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.admin')
 
 @section('title', 'Detail User')
 
@@ -23,7 +23,7 @@
                 <dt class="col-sm-2">User Role</dt>
                 <dd class="col-sm-10">
                     <ul>
-                        @foreach ($user->roles as $role)
+                        @foreach ($user->role as $role)
                         <li>{{ $role->name }}</li>
                         @endforeach
                     </ul>
