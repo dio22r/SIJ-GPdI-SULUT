@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Menu;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -29,7 +30,18 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         View::composer('panel.sidenav', function ($view) {
-            $sidemenu = Menu::orderBy('order')->get();
+            $roles = Auth::user()->Role;
+
+            $sidemenu = [];
+            if ($roles) {
+                $role = $roles[0];
+                $sidemenu = Menu::orderBy('order')
+                    ->whereHas('Role', function ($query) use ($role) {
+                        return $query->where("roles.id", "=", $role->id);
+                    })->get();
+            }
+
+
             $view->with('sidemenu', $sidemenu);
         });
     }
