@@ -158,7 +158,8 @@ class RoleManagementController extends Controller
     public function editPermission(Role $role)
     {
         $menu = Menu::with(["MenuAction.Acl" => function ($query) use ($role) {
-            return $query->where("ref_id", "=", $role->id);
+            return $query->where("ref_id", "=", $role->id)
+                ->where("ref_type", "=", Role::class);
         }])->get();
 
         // dd($role->toArray());
