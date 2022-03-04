@@ -14,4 +14,9 @@ class Role extends Model
     {
         return $this->belongsToMany(Menu::class, "role_menu");
     }
+
+    public function MenuAction()
+    {
+        return $this->belongsToMany(MenuAction::class, "acl", "ref_id", "menu_action_id");
+    }
 }

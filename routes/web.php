@@ -23,7 +23,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group([
-    "middleware" => ["auth"],
+    "middleware" => ["auth", "menuautho"],
     "prefix" => "admin"
 ], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
