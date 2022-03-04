@@ -6,12 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class RoleMenu extends Model
 {
     use SoftDeletes;
 
-    public function Menu()
-    {
-        return $this->belongsToMany(Menu::class, "role_menu");
-    }
+    protected $table = 'role_menu';
 }
