@@ -32,8 +32,8 @@ class MenuAuthorization
 
         if (!$menu) abort(403);
 
-        $menuActions = $role->MenuAction
-            ->where("menu_id", "=", $menu->id);
+        $menuActions = $role->MenuAction()
+            ->where("menu_id", "=", $menu->id)->get();
 
         foreach ($menuActions as $menuAction) {
             Gate::define($menuAction->code, function ($user) {

@@ -160,7 +160,7 @@ class RoleManagementController extends Controller
         $menu = Menu::with(["MenuAction.Acl" => function ($query) use ($role) {
             return $query->where("ref_id", "=", $role->id)
                 ->where("ref_type", "=", Role::class);
-        }])->get();
+        }])->orderBy("order", "asc")->get();
 
         // dd($role->toArray());
 
