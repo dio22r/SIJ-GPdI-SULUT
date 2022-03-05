@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\UserManagementController;
 use GuzzleHttp\Middleware;
@@ -57,16 +58,14 @@ Route::group([
         });
 
         Route::group(["prefix" => "/menu-management"], function () {
-            Route::get("/", [RoleManagementController::class, 'index'])->name('menu-management.index');
-            Route::get("/create", [RoleManagementController::class, 'create'])->name('menu-management.create');
-            Route::get("/{menu}", [RoleManagementController::class, 'show'])->name('menu-management.detail');
-            Route::get("/{menu}/edit", [RoleManagementController::class, 'edit'])->name('menu-management.edit');
-            Route::get("/{menu}/permision", [RoleManagementController::class, 'editPermission'])->name('menu-management.permission');
+            Route::get("/", [MenuManagementController::class, 'index'])->name('menu-management.index');
+            Route::get("/create", [MenuManagementController::class, 'create'])->name('menu-management.create');
+            Route::get("/{menu}", [MenuManagementController::class, 'show'])->name('menu-management.detail');
+            Route::get("/{menu}/edit", [MenuManagementController::class, 'edit'])->name('menu-management.edit');
 
-            Route::post("/", [RoleManagementController::class, 'store'])->name('menu-management.store');
-            Route::put("/{menu}", [RoleManagementController::class, 'update'])->name('menu-management.update');
-            Route::put("/{menu}/permision", [RoleManagementController::class, 'updatePermission'])->name('menu-management.uppdate-permission');
-            Route::delete("/{menu}", [RoleManagementController::class, 'destroy'])->name('menu-management.destroy');
+            Route::post("/", [MenuManagementController::class, 'store'])->name('menu-management.store');
+            Route::put("/{menu}", [MenuManagementController::class, 'update'])->name('menu-management.update');
+            Route::delete("/{menu}", [MenuManagementController::class, 'destroy'])->name('menu-management.destroy');
         });
     });
 });
