@@ -139,6 +139,7 @@ class UserManagementController extends Controller
 
         try {
             $roles = Role::whereIn('id', $request->roles)->get();
+            $user->Role()->detach();
             foreach ($roles as $role) {
                 $refId = null;
                 if ($role->reference_table == MhGereja::class) {

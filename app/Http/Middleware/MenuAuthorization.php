@@ -6,6 +6,7 @@ use App\Models\Menu;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class MenuAuthorization
 {
@@ -30,6 +31,15 @@ class MenuAuthorization
             ->first();
 
         if (!$menu) abort(403);
+
+        $menuActions = $role->MenuAction
+            ->where("menu_id", "=", $menu->id);
+
+        foreach ($menuActions as $menuAction) {
+            Gate::define($menuAction->code, function ($user) {
+                return true;
+            });
+        }
 
         return $next($request);
     }

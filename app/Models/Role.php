@@ -17,6 +17,8 @@ class Role extends Model
 
     public function MenuAction()
     {
-        return $this->belongsToMany(MenuAction::class, "acl", "ref_id", "menu_action_id");
+        return $this->belongsToMany(MenuAction::class, "acl", "ref_id", "menu_action_id")
+            ->whereNull('acl.deleted_at')
+            ->withPivot(['deleted_at']);
     }
 }
