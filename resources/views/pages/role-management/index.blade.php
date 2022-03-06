@@ -13,10 +13,10 @@
             <a href="{{ route('role-management.create') }}" class="btn btn-sm btn-primary">
                 <i class="fas fa-plus"></i> Tambah
             </a>
-            <table class="table caption-top">
+            <table class="table caption-top table-bordered table-striped">
                 <caption>List of User Group</caption>
                 <thead>
-                    <tr>
+                    <tr class="table-light">
                         <th scope="col">#</th>
                         <th scope="col">Nama Group</th>
                         <th scope="col">Action</th>
