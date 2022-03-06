@@ -16,4 +16,14 @@ class MhGereja extends Model
     {
         return $this->belongsTo(MhGembala::class);
     }
+
+    public function MhJemaat()
+    {
+        return $this->hasMany(MhJemaat::class);
+    }
+
+    public function MhWilayah()
+    {
+        return $this->belongsTo(MhWilayah::class);
+    }
 }

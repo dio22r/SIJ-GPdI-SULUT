@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MasterGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\RoleManagementController;
@@ -85,14 +86,14 @@ Route::group([
 
 
         Route::group(["prefix" => "/master-gereja"], function () {
-            Route::get("/", [MasterWilayahController::class, 'index'])->name('master-gereja.index');
-            Route::get("/create", [MasterWilayahController::class, 'create'])->name('master-gereja.create');
-            Route::get("/{gereja}", [MasterWilayahController::class, 'show'])->name('master-gereja.detail');
-            Route::get("/{gereja}/edit", [MasterWilayahController::class, 'edit'])->name('master-gereja.edit');
+            Route::get("/", [MasterGerejaController::class, 'index'])->name('master-gereja.index');
+            Route::get("/create", [MasterGerejaController::class, 'create'])->name('master-gereja.create');
+            Route::get("/{gereja}", [MasterGerejaController::class, 'show'])->name('master-gereja.detail');
+            Route::get("/{gereja}/edit", [MasterGerejaController::class, 'edit'])->name('master-gereja.edit');
 
-            Route::post("/", [MasterWilayahController::class, 'store'])->name('master-gereja.store');
-            Route::put("/{gereja}", [MasterWilayahController::class, 'update'])->name('master-gereja.update');
-            Route::delete("/{gereja}", [MasterWilayahController::class, 'destroy'])->name('master-gereja.destroy');
+            Route::post("/", [MasterGerejaController::class, 'store'])->name('master-gereja.store');
+            Route::put("/{gereja}", [MasterGerejaController::class, 'update'])->name('master-gereja.update');
+            Route::delete("/{gereja}", [MasterGerejaController::class, 'destroy'])->name('master-gereja.destroy');
         });
     });
 });
