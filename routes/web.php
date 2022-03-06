@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\UserManagementController;
@@ -66,6 +67,32 @@ Route::group([
             Route::post("/", [MenuManagementController::class, 'store'])->name('menu-management.store');
             Route::put("/{menu}", [MenuManagementController::class, 'update'])->name('menu-management.update');
             Route::delete("/{menu}", [MenuManagementController::class, 'destroy'])->name('menu-management.destroy');
+        });
+
+
+        Route::group(["prefix" => "/master-wilayah"], function () {
+            Route::get("/", [MasterWilayahController::class, 'index'])->name('master-wilayah.index');
+            Route::get("/create", [MasterWilayahController::class, 'create'])->name('master-wilayah.create');
+            Route::get("/{wilayah}", [MasterWilayahController::class, 'show'])->name('master-wilayah.detail');
+            Route::get("/{wilayah}/edit", [MasterWilayahController::class, 'edit'])->name('master-wilayah.edit');
+
+            Route::post("/", [MasterWilayahController::class, 'store'])->name('master-wilayah.store');
+            Route::put("/{wilayah}", [MasterWilayahController::class, 'update'])->name('master-wilayah.update');
+            Route::delete("/{wilayah}", [MasterWilayahController::class, 'destroy'])->name('master-wilayah.destroy');
+
+            Route::delete("/{wilayah}/remove/{gereja)", [MasterWilayahController::class, 'destroy'])->name('master-wilayah.gereja.destroy');
+        });
+
+
+        Route::group(["prefix" => "/master-gereja"], function () {
+            Route::get("/", [MasterWilayahController::class, 'index'])->name('master-gereja.index');
+            Route::get("/create", [MasterWilayahController::class, 'create'])->name('master-gereja.create');
+            Route::get("/{gereja}", [MasterWilayahController::class, 'show'])->name('master-gereja.detail');
+            Route::get("/{gereja}/edit", [MasterWilayahController::class, 'edit'])->name('master-gereja.edit');
+
+            Route::post("/", [MasterWilayahController::class, 'store'])->name('master-gereja.store');
+            Route::put("/{gereja}", [MasterWilayahController::class, 'update'])->name('master-gereja.update');
+            Route::delete("/{gereja}", [MasterWilayahController::class, 'destroy'])->name('master-gereja.destroy');
         });
     });
 });

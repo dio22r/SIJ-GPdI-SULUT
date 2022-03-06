@@ -6,14 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MhGereja extends Model
+class MhGembala extends Model
 {
     use SoftDeletes;
 
-    protected $table = "mh_gereja";
-
-    public function MhGembala()
-    {
-        return $this->belongsTo(MhGembala::class);
-    }
+    protected $table = 'mh_gembala';
 }
