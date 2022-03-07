@@ -29,7 +29,7 @@
                 <tbody>
                     @foreach ($menus as $menu)
                     <tr>
-                        <th scope="row"> {{ $loop->iteration }} </th>
+                        <th scope="row"> {{ $menus->firstItem() + $loop->index }} </th>
                         <td>
                             <a href="{{ route('menu-management.detail', ['menu' => $menu->id]) }}">
                                 {{ $menu->name }}

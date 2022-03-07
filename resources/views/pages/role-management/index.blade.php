@@ -25,7 +25,7 @@
                 <tbody>
                     @foreach ($roles as $role)
                     <tr>
-                        <th scope="row"> {{ $loop->iteration }} </th>
+                        <th scope="row"> {{ $roles->firstItem() + $loop->index }} </th>
                         <td>
                             <a href="{{ route('role-management.detail', ['role' => $role->id]) }}">
                                 {{ $role->name }}

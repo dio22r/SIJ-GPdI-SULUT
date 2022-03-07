@@ -27,7 +27,7 @@
                 <tbody>
                     @foreach ($users as $user)
                     <tr>
-                        <th scope="row"> {{ $loop->iteration }} </th>
+                        <th scope="row"> {{ $users->firstItem() + $loop->index }} </th>
                         <td><a href="{{ route('user-management.detail', ['user' => $user->id]) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
                         <td>

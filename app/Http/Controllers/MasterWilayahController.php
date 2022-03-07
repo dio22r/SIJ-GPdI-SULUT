@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\WilayahRequest;
 use App\Models\MhKabupaten;
 use App\Models\MhWilayah;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 

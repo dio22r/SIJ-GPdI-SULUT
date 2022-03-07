@@ -28,7 +28,7 @@
                 <tbody>
                     @foreach ($listWilayah as $wilayah)
                     <tr>
-                        <th scope="row"> {{ $loop->iteration }} </th>
+                        <th scope="row"> {{ $listWilayah->firstItem() + $loop->index }} </th>
                         <td>{{ $wilayah->code }}</td>
                         <td><a href="{{ route('master-wilayah.detail', ['wilayah' => $wilayah->id]) }}">{{ $wilayah->name }}</a></td>
                         <td>{{ $wilayah->MhKabupaten->name }}</td>
