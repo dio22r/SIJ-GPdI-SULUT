@@ -24,7 +24,10 @@ class GerejaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "name" => "required",
+            "address" => "required",
+            "date_birth" => "nullable|date",
+            "mh_wilayah_id" => "required"
         ];
     }
 }

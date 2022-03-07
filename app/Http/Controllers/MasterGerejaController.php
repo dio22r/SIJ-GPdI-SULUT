@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GerejaRequest;
+use App\Models\MhGembala;
 use App\Models\MhGereja;
 use App\Models\MhWilayah;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MasterGerejaController extends Controller
 {
@@ -20,6 +21,7 @@ class MasterGerejaController extends Controller
         $listGereja = MhGereja::with("MhWilayah")
             ->withCount('MhJemaat')->paginate(20);
 
+        // dd($listGereja);
         return view(
             'pages.master-gereja.index',
             ['listGereja' => $listGereja]
@@ -35,16 +37,23 @@ class MasterGerejaController extends Controller
     {
         $gereja = new MhGereja();
 
-        $gereja->code = old("code");
         $gereja->name = old("name");
-        $gereja->mh_kabupaten_id = old("mh_kabupaten_id");
+        $gereja->address = old("address");
+        $gereja->date_birth = old("date_birth");
+        $gereja->profile = old("profile");
+        $gereja->schedule = old("schedule");
+        $gereja->mh_wilayah_id = old("mh_wilayah_id");
+        $gereja->latitude = old("latitude");
+        $gereja->longitude = old("longitude");
+
+        $gereja->mh_gembala_nama = old("mh_gembala_nama");
 
         return view(
             'pages.master-gereja.form',
             [
                 "gereja" => $gereja,
                 "method" => "POST",
-                "action_url" => route('master-wilayah.store'),
+                "action_url" => route('master-gereja.store'),
                 "arrWilayah" => MhWilayah::all(),
             ]
         );
@@ -59,17 +68,32 @@ class MasterGerejaController extends Controller
     public function store(GerejaRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $wilayah = new MhWilayah();
 
-            $wilayah->slug = Str::slug($request->code . "-" . $request->name, "-");
-            $wilayah->code = $request->code;
-            $wilayah->name = $request->name;
-            $wilayah->mh_kabupaten_id = $request->mh_kabupaten_id;
+            $gereja = new MhGereja();
 
-            $wilayah->save();
+            if ($request->mh_gembala_nama) {
+                $gembala = new MhGembala();
+                $gembala->name = $request->mh_gembala_nama;
+                $gembala->save();
+                $gereja->mh_gembala_id = $gembala->id;
+            }
+
+            $gereja->slug = Str::slug($request->name, "-");
+            $gereja->created_name = $request->name;
+            $gereja->name = $request->name;
+
+            $gereja->address = $request->address;
+            $gereja->date_birth = $request->date_birth;
+            $gereja->profile = $request->profile;
+            $gereja->schedule = $request->schedule;
+            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
+            $gereja->latitude = $request->latitude;
+            $gereja->longitude = $request->longitude;
+
+            $gereja->save();
         });
 
-        return redirect()->route("master-wilayah.index");
+        return redirect()->route("master-gereja.index");
     }
 
     /**
@@ -78,11 +102,11 @@ class MasterGerejaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(MhWilayah $wilayah)
+    public function show(MhGereja $gereja)
     {
         return view(
-            "pages.master-wilayah.detail",
-            ["wilayah" => $wilayah]
+            "pages.master-gereja.detail",
+            ["gereja" => $gereja]
         );
     }
 
@@ -95,13 +119,15 @@ class MasterGerejaController extends Controller
     public function edit(MhGereja $gereja)
     {
 
+        $gereja->mh_gembala_nama = optional($gereja->MhGembala)->name;
+
         return view(
-            'pages.master-wilayah.form',
+            'pages.master-gereja.form',
             [
-                "wilayah" => $gereja,
+                "gereja" => $gereja,
                 "method" => "PUT",
-                "action_url" => route('master-wilayah.update', ["wilayah" => $wilayah->id]),
-                "arrKabupaten" => MhKabupaten::all(),
+                "action_url" => route('master-gereja.update', ["gereja" => $gereja->id]),
+                "arrWilayah" => MhWilayah::all(),
             ]
         );
     }
@@ -117,15 +143,29 @@ class MasterGerejaController extends Controller
     {
         DB::transaction(function () use ($request, $gereja) {
 
-            $gereja->slug = Str::slug($request->code . "-" . $request->name, "-");
-            $gereja->code = $request->code;
+            if ($request->mh_gembala_nama) {
+                $gembala = $gereja->MhGembala ?? new MhGembala();
+                $gembala->name = $request->mh_gembala_nama;
+                $gembala->save();
+                $gereja->mh_gembala_id = $gembala->id;
+            }
+
+            $gereja->slug = Str::slug($request->name, "-");
+            $gereja->created_name = $request->name;
             $gereja->name = $request->name;
-            $gereja->mh_kabupaten_id = $request->mh_kabupaten_id;
+
+            $gereja->address = $request->address;
+            $gereja->date_birth = $request->date_birth;
+            $gereja->profile = $request->profile;
+            $gereja->schedule = $request->schedule;
+            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
+            $gereja->latitude = $request->latitude;
+            $gereja->longitude = $request->longitude;
 
             $gereja->save();
         });
 
-        return redirect()->route("master-wilayah.index");
+        return redirect()->route("master-gereja.index");
     }
 
     /**
@@ -136,6 +176,7 @@ class MasterGerejaController extends Controller
      */
     public function destroy(MhGereja $gereja)
     {
+        $gereja->MhGembala->delete();
         $gereja->delete();
         return back();
     }

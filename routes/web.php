@@ -95,5 +95,16 @@ Route::group([
             Route::put("/{gereja}", [MasterGerejaController::class, 'update'])->name('master-gereja.update');
             Route::delete("/{gereja}", [MasterGerejaController::class, 'destroy'])->name('master-gereja.destroy');
         });
+
+        Route::group(["prefix" => "/master-gembala"], function () {
+            Route::get("/", [MasterGerejaController::class, 'index'])->name('master-gembala.index');
+            Route::get("/create", [MasterGerejaController::class, 'create'])->name('master-gembala.create');
+            Route::get("/{gembala}", [MasterGerejaController::class, 'show'])->name('master-gembala.detail');
+            Route::get("/{gembala}/edit", [MasterGerejaController::class, 'edit'])->name('master-gembala.edit');
+
+            Route::post("/", [MasterGerejaController::class, 'store'])->name('master-gembala.store');
+            Route::put("/{gembala}", [MasterGerejaController::class, 'update'])->name('master-gembala.update');
+            Route::delete("/{gembala}", [MasterGerejaController::class, 'destroy'])->name('master-gembala.destroy');
+        });
     });
 });

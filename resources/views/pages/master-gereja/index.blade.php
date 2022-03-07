@@ -28,13 +28,19 @@
                 <tbody>
                     @foreach ($listGereja as $gereja)
                     <tr>
-                        <th scope="row"> {{ $loop->iteration }} </th>
+                        <th scope="row"> {{ $listGereja->firstItem() + $loop->index }} </th>
                         <td>
                             <a href="{{ route('master-gereja.detail', ['gereja' => $gereja->id]) }}">
                                 {{ $gereja->name }}
                             </a>
                         </td>
-                        <td>{{ optional($gereja->MhGembala)->name }}</td>
+                        <td>
+                            @if($gereja->MhGembala)
+                            <a href="{{ route('master-gembala.detail', ['gembala' => $gereja->MhGembala->id]) }}">
+                                {{ $gereja->MhGembala->name }}
+                            </a>
+                            @endif
+                        </td>
                         <td>
                             @if($gereja->MhWilayah)
                             <a href="{{ route('master-wilayah.detail', ['wilayah' => $gereja->MhWilayah->id]) }}">
