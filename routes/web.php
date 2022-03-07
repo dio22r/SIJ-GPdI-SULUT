@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\MasterGembalaController;
 use App\Http\Controllers\MasterGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\UserManagementController;
-use GuzzleHttp\Middleware;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -97,14 +98,14 @@ Route::group([
         });
 
         Route::group(["prefix" => "/master-gembala"], function () {
-            Route::get("/", [MasterGerejaController::class, 'index'])->name('master-gembala.index');
-            Route::get("/create", [MasterGerejaController::class, 'create'])->name('master-gembala.create');
-            Route::get("/{gembala}", [MasterGerejaController::class, 'show'])->name('master-gembala.detail');
-            Route::get("/{gembala}/edit", [MasterGerejaController::class, 'edit'])->name('master-gembala.edit');
+            Route::get("/", [MasterGembalaController::class, 'index'])->name('master-gembala.index');
+            Route::get("/create", [MasterGembalaController::class, 'create'])->name('master-gembala.create');
+            Route::get("/{gembala}", [MasterGembalaController::class, 'show'])->name('master-gembala.detail');
+            Route::get("/{gembala}/edit", [MasterGembalaController::class, 'edit'])->name('master-gembala.edit');
 
-            Route::post("/", [MasterGerejaController::class, 'store'])->name('master-gembala.store');
-            Route::put("/{gembala}", [MasterGerejaController::class, 'update'])->name('master-gembala.update');
-            Route::delete("/{gembala}", [MasterGerejaController::class, 'destroy'])->name('master-gembala.destroy');
+            Route::post("/", [MasterGembalaController::class, 'store'])->name('master-gembala.store');
+            Route::put("/{gembala}", [MasterGembalaController::class, 'update'])->name('master-gembala.update');
+            Route::delete("/{gembala}", [MasterGembalaController::class, 'destroy'])->name('master-gembala.destroy');
         });
     });
 });

@@ -11,4 +11,9 @@ class MhGembala extends Model
     use SoftDeletes;
 
     protected $table = 'mh_gembala';
+
+    public function MhGereja()
+    {
+        return $this->hasOne(MhGereja::class);
+    }
 }
