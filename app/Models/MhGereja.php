@@ -26,4 +26,9 @@ class MhGereja extends Model
     {
         return $this->belongsTo(MhWilayah::class);
     }
+
+    public function User()
+    {
+        return $this->morphToMany(User::class, "ref", "user_role");
+    }
 }

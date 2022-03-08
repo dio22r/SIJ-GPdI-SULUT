@@ -43,4 +43,20 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'user_role')
             ->withPivot(['ref_id', 'ref_type']);
     }
+
+    public function RoleMhGereja()
+    {
+        return $this->belongsToMany(Role::class, 'user_role')
+            ->wherePivot('ref_type', "=", MhGereja::class);
+    }
+
+    public function MhGereja()
+    {
+        return $this->morphedByMany(MhGereja::class, "ref", "user_role");
+    }
+
+    public function MhWilayah()
+    {
+        return $this->morphedByMany(MhWilayah::class, "ref", "user_role");
+    }
 }

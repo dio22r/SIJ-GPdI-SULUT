@@ -104,6 +104,8 @@ class MasterGerejaController extends Controller
      */
     public function show(MhGereja $gereja)
     {
+        $gereja->load("User");
+
         return view(
             "pages.master-gereja.detail",
             ["gereja" => $gereja]

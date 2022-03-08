@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MasterGembalaController;
 use App\Http\Controllers\MasterGerejaController;
+use App\Http\Controllers\MasterUserGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\RoleManagementController;
@@ -95,6 +96,15 @@ Route::group([
             Route::post("/", [MasterGerejaController::class, 'store'])->name('master-gereja.store');
             Route::put("/{gereja}", [MasterGerejaController::class, 'update'])->name('master-gereja.update');
             Route::delete("/{gereja}", [MasterGerejaController::class, 'destroy'])->name('master-gereja.destroy');
+
+
+            Route::get("/{gereja}/user/create", [MasterUserGerejaController::class, 'create'])->name('master-gereja.user.create');
+            Route::get("/{gereja}/user/{user}", [MasterUserGerejaController::class, 'store'])->name('master-gereja.user.detail');
+            Route::get("/{gereja}/user/{user}/edit", [MasterUserGerejaController::class, 'edit'])->name('master-gereja.user.edit');
+
+            Route::post("/{gereja}/user", [MasterUserGerejaController::class, 'store'])->name('master-gereja.user.store');
+            Route::put("/{gereja}/user/{user}", [MasterUserGerejaController::class, 'update'])->name('master-gereja.user.update');
+            Route::delete("/{gereja}/user/{user}", [MasterUserGerejaController::class, 'destroy'])->name('master-gereja.user.destroy');
         });
 
         Route::group(["prefix" => "/master-gembala"], function () {
