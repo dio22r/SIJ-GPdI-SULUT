@@ -47,7 +47,7 @@ class UserManagementController extends Controller
             [
                 "user" => $user,
                 "method" => "POST",
-                "action_url" => url('/user-management'),
+                "action_url" => route('user-management.store'),
                 "roles" => Role::all(),
                 "rolesId" => old("roles")
             ]
