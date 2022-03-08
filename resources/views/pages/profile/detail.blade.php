@@ -34,6 +34,7 @@
                 <i class="fas fa-edit"></i>
                 Edit Account
             </a>
+            @if (!auth()->user()->hasVerifiedEmail())
             <form class="d-inline" method="post" action="{{ route('verification.send') }}">
                 @csrf
                 <button type="submit" class="btn btn-sm btn-warning">
@@ -41,6 +42,7 @@
                     Send Verified Email
                 </button>
             </form>
+            @endif
         </div>
     </div>
 </div>

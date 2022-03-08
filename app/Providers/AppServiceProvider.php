@@ -32,17 +32,18 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         View::composer('panel.sidenav', function ($view) {
-            $roles = Auth::user()->Role;
-
             $sidemenu = [];
-            if ($roles) {
-                $role = $roles[0];
-                $sidemenu = Menu::orderBy('order')
-                    ->whereHas('Role', function ($query) use ($role) {
-                        return $query->where("roles.id", "=", $role->id);
-                    })->get();
-            }
 
+            if (Auth::user()->hasVerifiedEmail()) {
+                $roles = Auth::user()->Role;
+                if ($roles) {
+                    $role = $roles[0];
+                    $sidemenu = Menu::orderBy('order')
+                        ->whereHas('Role', function ($query) use ($role) {
+                            return $query->where("roles.id", "=", $role->id);
+                        })->get();
+                }
+            }
 
             $view->with('sidemenu', $sidemenu);
         });

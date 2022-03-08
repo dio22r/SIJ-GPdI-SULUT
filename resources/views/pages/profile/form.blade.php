@@ -62,7 +62,7 @@
 
                 <div class="row mb-3">
                     <div class="col-sm-10 offset-sm-2">
-                        <a href="{{ route('account.edit') }}" class="btn btn-light">
+                        <a href="{{ route('account') }}" class="btn btn-light">
                             <i class="fas fa-arrow-left"></i>
                             Kembali
                         </a>

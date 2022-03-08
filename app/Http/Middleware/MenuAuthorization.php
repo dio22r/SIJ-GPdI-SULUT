@@ -19,6 +19,10 @@ class MenuAuthorization
      */
     public function handle(Request $request, Closure $next)
     {
+        if (!Auth::user()->hasVerifiedEmail()) {
+            return redirect()->route('account');
+        }
+
         $menuCode = $request->segment(2);
 
         $roles = Auth::user()->Role;
