@@ -36,21 +36,15 @@ class RoleManagementController extends Controller
      */
     public function create()
     {
-        $user = new Role();
+        $role = new Role();
 
-        $user->name = old("name");
-        $user->email = old("email");
+        $role->name = old("name");
 
-        return view(
-            'pages.user-management.form',
-            [
-                "user" => $user,
-                "method" => "POST",
-                "action_url" => url('/user-management'),
-                "roles" => Role::all(),
-                "rolesId" => old("roles")
-            ]
-        );
+        return view('pages.role-management.form', [
+            "role" => $role,
+            "method" => "POST",
+            "action_url" => route('role-management.store'),
+        ]);
     }
 
     /**
@@ -61,31 +55,13 @@ class RoleManagementController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        DB::beginTransaction();
+        DB::transaction(function () use ($request) {
+            $role = new Role();
+            $role->name = $request->name;
+            $role->save();
+        });
 
-        try {
-            $user = new Role($request->validated());
-            $user->password = Hash::make($user->password);
-            $user->save();
-
-            $roles = Role::whereIn('id', $request->roles)->get();
-            foreach ($roles as $role) {
-                $refId = null;
-                if ($role->reference_table == MhGereja::class) {
-                    $refId = $request->gereja;
-                }
-                if ($role->reference_table == MhWilayah::class) {
-                    $refId = $request->wilayah;
-                }
-
-                $user->Role()->attach($role->id, ['ref_id' => $refId]);
-            }
-            DB::commit();
-            return redirect('/user-management');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withInput();
-        }
+        return redirect()->route('role-management.index');
     }
 
     /**
@@ -110,14 +86,11 @@ class RoleManagementController extends Controller
      */
     public function edit(Role $role)
     {
-        return view(
-            'pages.role-management.form',
-            [
-                "role" => $role,
-                "method" => "PUT",
-                "action_url" => route('role-management.update', ['role' => $role->id]),
-            ]
-        );
+        return view('pages.role-management.form', [
+            "role" => $role,
+            "method" => "PUT",
+            "action_url" => route('role-management.update', ['role' => $role->id]),
+        ]);
     }
 
     /**
@@ -129,16 +102,10 @@ class RoleManagementController extends Controller
      */
     public function update(RoleRequest $request, Role $role)
     {
-        DB::beginTransaction();
-
-        try {
+        DB::transaction(function () use ($request, $role) {
             $role->name = $request->name;
             $role->save();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withInput();
-        }
+        });
 
         return redirect()->route('role-management.index');
     }
