@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\MhGereja;
 use App\Models\MhWilayah;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class RegisterController extends Controller
+class RegisterGerejaController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,8 @@ class RegisterController extends Controller
         $listWilayah = MhWilayah::get();
 
         return view('auth.register', [
-            'listWilayah' => $listWilayah
+            'listWilayah' => $listWilayah,
+            'actionUrl' => route('register.gembala')
         ]);
     }
 
@@ -89,7 +90,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->Role()->attach(9, [
+        $user->Role()->attach(7, [
             'ref_id' => $data['ref_id'],
             'ref_type' => MhGereja::class
         ]);

@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterGerejaController;
 use App\Http\Controllers\MasterGembalaController;
 use App\Http\Controllers\MasterGerejaController;
 use App\Http\Controllers\MasterUserGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\UserManagementController;
 
@@ -40,14 +42,23 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Auth::routes();
+Route::group(["prefix" => "resources"], function () {
+    Route::get('/gereja-by-wilayah', [FormController::class, 'gerejaByWilayah'])->name('resource.gereja-by-wilayah');
+});
+
+Auth::routes([
+    'register' => false, // Registration Routes...
+]);
+
+Route::get('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "showRegistrationForm"])->name("register.gembala");
+Route::post('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "register"])->name("register.gembala");
 
 Route::group([
     "middleware" => ["auth"],
     "prefix" => "admin"
 ], function () {
 
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [ProfileController::class, 'show'])->name('home');
 
     Route::get('/my-account', [ProfileController::class, 'show'])->name('account');
     Route::get('/edit-account', [ProfileController::class, 'edit'])->name('account.edit');
