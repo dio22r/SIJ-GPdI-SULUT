@@ -25,7 +25,8 @@ class MenuRequest extends FormRequest
      */
     public function rules()
     {
-        $ruleUniqueCode = Rule::unique(Menu::class, 'code');
+        $ruleUniqueCode = Rule::unique(Menu::class, 'code')
+            ->whereNull('deleted_at');
         if ($this->menu) {
             $ruleUniqueCode->ignore($this->menu->id);
         }

@@ -88,6 +88,7 @@ class RegisterGerejaController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'email_verified_at' => date("Y-m-d H:i:s")
         ]);
 
         $user->Role()->attach(7, [
@@ -100,6 +101,6 @@ class RegisterGerejaController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        event(new Registered($user));
+        // event(new Registered($user));
     }
 }
