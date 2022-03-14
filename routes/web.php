@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterGerejaController;
 use App\Http\Controllers\MasterGembalaController;
 use App\Http\Controllers\MasterGerejaController;
+use App\Http\Controllers\MasterJemaatController;
 use App\Http\Controllers\MasterUserGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
@@ -146,6 +147,18 @@ Route::group([
             Route::post("/", [MasterGembalaController::class, 'store'])->name('master-gembala.store');
             Route::put("/{gembala}", [MasterGembalaController::class, 'update'])->name('master-gembala.update');
             Route::delete("/{gembala}", [MasterGembalaController::class, 'destroy'])->name('master-gembala.destroy');
+        });
+
+
+        Route::group(["prefix" => "/master-jemaat"], function () {
+            Route::get("/", [MasterJemaatController::class, 'index'])->name('master-jemaat.index');
+            Route::get("/create", [MasterJemaatController::class, 'create'])->name('master-jemaat.create');
+            Route::get("/{jemaat}", [MasterJemaatController::class, 'show'])->name('master-jemaat.detail');
+            Route::get("/{jemaat}/edit", [MasterJemaatController::class, 'edit'])->name('master-jemaat.edit');
+
+            Route::post("/", [MasterJemaatController::class, 'store'])->name('master-jemaat.store');
+            Route::put("/{jemaat}", [MasterJemaatController::class, 'update'])->name('master-jemaat.update');
+            Route::delete("/{jemaat}", [MasterJemaatController::class, 'destroy'])->name('master-jemaat.destroy');
         });
     });
 });

@@ -37,7 +37,7 @@
                         <select class="form-select" name="parent_id" id="parent_id" aria-label="Default">
                             <option value="0">Root</option>
                             @foreach($parents as $key => $parent)
-                            <option value="{{ $parent->id }}" @if($parent->id == $key) selected @endif>{{ $parent->name }}</option>
+                            <option value="{{ $parent->id }}" @if($menu->parent_id == $parent->id) selected @endif>{{ $parent->name }}</option>
                             @endforeach
                         </select>
                         @error('parent_id')
