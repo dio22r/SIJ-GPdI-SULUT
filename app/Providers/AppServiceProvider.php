@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
                 if ($roles) {
                     $role = $roles[0];
                     $sidemenu = Menu::orderBy('order')
+                        ->doesntHave('Parent')
                         ->whereHas('Role', function ($query) use ($role) {
                             return $query->where("roles.id", "=", $role->id);
                         })->get();

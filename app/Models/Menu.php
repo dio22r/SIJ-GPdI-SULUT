@@ -16,6 +16,16 @@ class Menu extends Model
         2 => "Dropdown"
     ];
 
+    public function Children()
+    {
+        return $this->hasMany(Menu::class, 'parent_id');
+    }
+
+    public function Parent()
+    {
+        return $this->belongsTo(Menu::class, 'parent_id');
+    }
+
     public function MenuAction()
     {
         return $this->hasMany(MenuAction::class);

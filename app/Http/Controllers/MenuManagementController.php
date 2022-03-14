@@ -35,6 +35,8 @@ class MenuManagementController extends Controller
     {
         $menu = new Menu();
 
+        $listMenu = Menu::with("Parent")->get();
+
         $menu->name = old("name");
         $menu->parent_id = old("parent_id");
         $menu->code = old("code");
@@ -50,7 +52,8 @@ class MenuManagementController extends Controller
                 "method" => "POST",
                 "action_url" => route('menu-management.store'),
                 "types" => Menu::$type,
-                "parents" => Menu::whereNull("parent_id")->get()
+                "parents" => Menu::doesntHave("Parent")
+                    ->where('type', '!=', 1)->get()
             ]
         );
     }
@@ -67,6 +70,7 @@ class MenuManagementController extends Controller
             $menu = new Menu();
 
             $menu->name = $request->name;
+            $menu->parent_id = $request->parent_id;
             $menu->code = $request->code;
             $menu->icon = $request->icon;
             $menu->order = $request->order;
@@ -75,7 +79,7 @@ class MenuManagementController extends Controller
 
             $menu->save();
 
-            $arrAction = explode(",", $request->action);
+            $arrAction = explode(",", $request->initial_action);
             foreach ($arrAction as $action) {
                 $menuAction = new MenuAction();
                 $menuAction->code = $menu->code . "_" . $action;
@@ -116,7 +120,8 @@ class MenuManagementController extends Controller
                 "method" => "PUT",
                 "action_url" => route('menu-management.update', ['menu' => $menu->id]),
                 "types" => Menu::$type,
-                "parents" => Menu::whereNull("parent_id")->get()
+                "parents" => Menu::doesntHave("Parent")
+                    ->where('type', '!=', 1)->get()
             ]
         );
     }
@@ -132,6 +137,7 @@ class MenuManagementController extends Controller
     {
         DB::transaction(function () use ($request, $menu) {
             $menu->name = $request->name;
+            $menu->parent_id = $request->parent_id;
             $menu->code = $request->code;
             $menu->icon = $request->icon;
             $menu->order = $request->order;
