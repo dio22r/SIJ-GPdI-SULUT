@@ -16,6 +16,17 @@
     @yield('css')
 
     <title>{{ config('app.name', 'Laravel') }} | @yield('title')</title>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "91356bb4-6683-4356-bdb7-f825b6cf5eb2",
+            });
+        });
+    </script>
+
 </head>
 
 <body>
