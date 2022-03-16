@@ -149,7 +149,10 @@ class UserManagementController extends Controller
                     $refId = $request->wilayah;
                 }
 
-                $user->Role()->attach($role->id, ['ref_id' => $refId]);
+                $user->Role()->attach($role->id, [
+                    'ref_id' => $refId,
+                    'ref_type' => $role->reference_table
+                ]);
             }
 
             $arrUpdate = $request->validated();

@@ -12,6 +12,10 @@ class MhJemaat extends Model
     use SoftDeletes;
 
     protected $table = 'mh_jemaat';
+    protected $fillable = [
+        "name", "sex", "date_birth", "place_birth", "telp", "address",
+        "email", "blood_group", "marital_status", "job", "activity"
+    ];
 
     public static $maritalStatus = [
         'S' => "Single",

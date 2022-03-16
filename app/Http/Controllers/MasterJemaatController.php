@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JemaatRequest;
 use App\Models\MhJemaat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MasterJemaatController extends Controller
 {
@@ -49,28 +51,26 @@ class MasterJemaatController extends Controller
      */
     public function create()
     {
-        $gereja = new MhGereja();
+        $jemaat = new MhJemaat();
 
-        $gereja->name = old("name");
-        $gereja->address = old("address");
-        $gereja->date_birth = old("date_birth");
-        $gereja->profile = old("profile");
-        $gereja->schedule = old("schedule");
-        $gereja->mh_wilayah_id = old("mh_wilayah_id");
-        $gereja->latitude = old("latitude");
-        $gereja->longitude = old("longitude");
+        $jemaat->name = old("name");
+        $jemaat->sex = old("sex");
+        $jemaat->date_birth = old("date_birth");
+        $jemaat->place_birth = old("place_birth");
+        $jemaat->address = old("address");
+        $jemaat->telp = old("telp");
+        $jemaat->email = old("email");
+        $jemaat->blood_group = old("blood_group");
+        $jemaat->marital_status = old("marital_status");
+        $jemaat->job = old("job");
+        $jemaat->activity = old("activity");
 
-        $gereja->mh_gembala_nama = old("mh_gembala_nama");
-
-        return view(
-            'pages.master-gereja.form',
-            [
-                "gereja" => $gereja,
-                "method" => "POST",
-                "action_url" => route('master-gereja.store'),
-                "arrWilayah" => MhWilayah::all(),
-            ]
-        );
+        return view('pages.master-jemaat.form', [
+            "jemaat" => $jemaat,
+            "method" => "POST",
+            "action_url" => route('master-jemaat.store'),
+            "arrMaritalStatus" => MhJemaat::$maritalStatus
+        ]);
     }
 
     /**
@@ -79,35 +79,16 @@ class MasterJemaatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GerejaRequest $request)
+    public function store(JemaatRequest $request)
     {
         DB::transaction(function () use ($request) {
-
-            $gereja = new MhGereja();
-
-            if ($request->mh_gembala_nama) {
-                $gembala = new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
-            $gereja->slug = Str::slug($request->name, "-");
-            $gereja->created_name = $request->name;
-            $gereja->name = $request->name;
-
-            $gereja->address = $request->address;
-            $gereja->date_birth = $request->date_birth;
-            $gereja->profile = $request->profile;
-            $gereja->schedule = $request->schedule;
-            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
-            $gereja->latitude = $request->latitude;
-            $gereja->longitude = $request->longitude;
-
-            $gereja->save();
+            $jemaat = new MhJemaat($request->validated());
+            $jemaat->status = 1;
+            $jemaat->mh_gereja_id = $this->gereja->id;
+            $jemaat->save();
         });
 
-        return redirect()->route("master-gereja.index");
+        return redirect()->route("master-jemaat.index");
     }
 
     /**
@@ -116,13 +97,11 @@ class MasterJemaatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(MhGereja $gereja)
+    public function show(MhJemaat $jemaat)
     {
-        $gereja->load("User");
-
         return view(
-            "pages.master-gereja.detail",
-            ["gereja" => $gereja]
+            "pages.master-jemaat.detail",
+            ["jemaat" => $jemaat]
         );
     }
 
@@ -132,20 +111,14 @@ class MasterJemaatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(MhGereja $gereja)
+    public function edit(MhJemaat $jemaat)
     {
-
-        $gereja->mh_gembala_nama = optional($gereja->MhGembala)->name;
-
-        return view(
-            'pages.master-gereja.form',
-            [
-                "gereja" => $gereja,
-                "method" => "PUT",
-                "action_url" => route('master-gereja.update', ["gereja" => $gereja->id]),
-                "arrWilayah" => MhWilayah::all(),
-            ]
-        );
+        return view('pages.master-jemaat.form', [
+            "jemaat" => $jemaat,
+            "method" => "PUT",
+            "action_url" => route('master-jemaat.update', ["jemaat" => $jemaat->id]),
+            "arrMaritalStatus" => MhJemaat::$maritalStatus,
+        ]);
     }
 
     /**
@@ -155,33 +128,14 @@ class MasterJemaatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GerejaRequest $request, MhGereja $gereja)
+    public function update(JemaatRequest $request, MhJemaat $jemaat)
     {
-        DB::transaction(function () use ($request, $gereja) {
-
-            if ($request->mh_gembala_nama) {
-                $gembala = $gereja->MhGembala ?? new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
-            $gereja->slug = Str::slug($request->name, "-");
-            $gereja->created_name = $request->name;
-            $gereja->name = $request->name;
-
-            $gereja->address = $request->address;
-            $gereja->date_birth = $request->date_birth;
-            $gereja->profile = $request->profile;
-            $gereja->schedule = $request->schedule;
-            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
-            $gereja->latitude = $request->latitude;
-            $gereja->longitude = $request->longitude;
-
-            $gereja->save();
+        DB::transaction(function () use ($request, $jemaat) {
+            $jemaat->mh_gereja_id = $this->gereja->id;
+            $jemaat->update($request->validated());
         });
 
-        return redirect()->route("master-gereja.index");
+        return redirect()->route("master-jemaat.index");
     }
 
     /**
