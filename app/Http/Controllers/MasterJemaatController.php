@@ -34,7 +34,7 @@ class MasterJemaatController extends Controller
         $listJemaat = MhJemaat::with("MhGereja")
             ->whereHas("MhGereja", function ($query) use ($gereja) {
                 return $query->where('mh_gereja.id', "=", $gereja->id);
-            })
+            })->orderBy("name")
             ->paginate(20);
 
         // dd($listGereja);

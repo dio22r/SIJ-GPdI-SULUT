@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterUserGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileGerejaController;
 use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\UserManagementController;
@@ -159,6 +160,13 @@ Route::group([
             Route::post("/", [MasterJemaatController::class, 'store'])->name('master-jemaat.store');
             Route::put("/{jemaat}", [MasterJemaatController::class, 'update'])->name('master-jemaat.update');
             Route::delete("/{jemaat}", [MasterJemaatController::class, 'destroy'])->name('master-jemaat.destroy');
+        });
+
+        Route::group(["prefix" => "/profile-gereja"], function () {
+            Route::get("/", [ProfileGerejaController::class, 'show'])->name('profile-gereja.detail');
+            Route::get("/edit", [ProfileGerejaController::class, 'edit'])->name('profile-gereja.edit');
+
+            Route::put("/edit", [ProfileGerejaController::class, 'update'])->name('profile-gereja.update');
         });
     });
 });
