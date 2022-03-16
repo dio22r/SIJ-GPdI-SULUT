@@ -87,7 +87,7 @@ class ProfileGerejaController extends Controller
             $gereja->date_birth = $request->date_birth;
             $gereja->profile = $request->profile;
             $gereja->schedule = $request->schedule;
-            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
+            // $gereja->mh_wilayah_id = $request->mh_wilayah_id;
             $gereja->latitude = $request->latitude;
             $gereja->longitude = $request->longitude;
 

@@ -72,7 +72,7 @@
                 <div class="row mb-3">
                     <label for="mh_wilayah_id" class="col-sm-2 col-form-label">Wilayah</label>
                     <div class="col-sm-5">
-                        <select class="form-select" name="mh_wilayah_id" id="mh_wilayah_id" aria-label="Default">
+                        <select class="form-select" name="mh_wilayah_id" id="mh_wilayah_id" aria-label="Default" disabled>
                             @foreach($arrWilayah as $wilayah)
                             <option value="{{ $wilayah->id }}" @if($wilayah->id == $gereja->mh_wilayah_id) selected @endif>
                                 {{ $wilayah->code }} {{ $wilayah->name }}
