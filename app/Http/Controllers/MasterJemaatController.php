@@ -27,20 +27,25 @@ class MasterJemaatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $gereja = $this->gereja;
 
         $listJemaat = MhJemaat::with("MhGereja")
             ->whereHas("MhGereja", function ($query) use ($gereja) {
                 return $query->where('mh_gereja.id', "=", $gereja->id);
-            })->orderBy("name")
+            })->filters(request(['search']))
+            ->orderBy("name")
+            ->where("status", "=", 1)
             ->paginate(20);
 
         // dd($listGereja);
         return view(
             'pages.master-jemaat.index',
-            ['listJemaat' => $listJemaat]
+            [
+                'listJemaat' => $listJemaat,
+                'search' => $request->search
+            ]
         );
     }
 
@@ -138,15 +143,31 @@ class MasterJemaatController extends Controller
         return redirect()->route("master-jemaat.index");
     }
 
+    public function delete(MhJemaat $jemaat)
+    {
+        return view(
+            "pages.master-jemaat.delete",
+            ["jemaat" => $jemaat]
+        );
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MhJemaat $jemaat)
+    public function destroy(Request $request, MhJemaat $jemaat)
     {
+        $request->validate([
+            'date_end' => 'required|date',
+            'status' => 'required|in:-2,-1'
+        ]);
+        $jemaat->date_end = $request->date_end;
+        $jemaat->status = $request->status;
+        $jemaat->save();
+
         $jemaat->delete();
-        return back();
+        return redirect()->route('master-jemaat.index');
     }
 }

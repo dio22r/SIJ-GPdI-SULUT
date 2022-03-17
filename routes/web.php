@@ -151,12 +151,12 @@ Route::group([
             Route::delete("/{gembala}", [MasterGembalaController::class, 'destroy'])->name('master-gembala.destroy');
         });
 
-
         Route::group(["prefix" => "/master-jemaat"], function () {
             Route::get("/", [MasterJemaatController::class, 'index'])->name('master-jemaat.index');
             Route::get("/create", [MasterJemaatController::class, 'create'])->name('master-jemaat.create');
             Route::get("/{jemaat}", [MasterJemaatController::class, 'show'])->name('master-jemaat.detail');
             Route::get("/{jemaat}/edit", [MasterJemaatController::class, 'edit'])->name('master-jemaat.edit');
+            Route::get("/{jemaat}/delete", [MasterJemaatController::class, 'delete'])->name('master-jemaat.delete');
 
             Route::post("/", [MasterJemaatController::class, 'store'])->name('master-jemaat.store');
             Route::put("/{jemaat}", [MasterJemaatController::class, 'update'])->name('master-jemaat.update');
