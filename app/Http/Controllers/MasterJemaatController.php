@@ -29,6 +29,8 @@ class MasterJemaatController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', new MhJemaat());
+
         $gereja = $this->gereja;
 
         $listJemaat = MhJemaat::with("MhGereja")
@@ -58,6 +60,8 @@ class MasterJemaatController extends Controller
     {
         $jemaat = new MhJemaat();
 
+        $this->authorize('create', $jemaat);
+
         $jemaat->name = old("name");
         $jemaat->sex = old("sex");
         $jemaat->date_birth = old("date_birth");
@@ -86,6 +90,8 @@ class MasterJemaatController extends Controller
      */
     public function store(JemaatRequest $request)
     {
+        $this->authorize('create', new MhJemaat());
+
         DB::transaction(function () use ($request) {
             $jemaat = new MhJemaat($request->validated());
             $jemaat->status = 1;
@@ -104,6 +110,8 @@ class MasterJemaatController extends Controller
      */
     public function show(MhJemaat $jemaat)
     {
+        $this->authorize('view', $jemaat);
+
         return view(
             "pages.master-jemaat.detail",
             ["jemaat" => $jemaat]
@@ -118,6 +126,8 @@ class MasterJemaatController extends Controller
      */
     public function edit(MhJemaat $jemaat)
     {
+        $this->authorize('update', $jemaat);
+
         return view('pages.master-jemaat.form', [
             "jemaat" => $jemaat,
             "method" => "PUT",
@@ -135,6 +145,8 @@ class MasterJemaatController extends Controller
      */
     public function update(JemaatRequest $request, MhJemaat $jemaat)
     {
+        $this->authorize('update', $jemaat);
+
         DB::transaction(function () use ($request, $jemaat) {
             $jemaat->mh_gereja_id = $this->gereja->id;
             $jemaat->update($request->validated());
@@ -145,6 +157,8 @@ class MasterJemaatController extends Controller
 
     public function delete(MhJemaat $jemaat)
     {
+        $this->authorize('delete', $jemaat);
+
         return view(
             "pages.master-jemaat.delete",
             ["jemaat" => $jemaat]
@@ -161,7 +175,7 @@ class MasterJemaatController extends Controller
     {
         $request->validate([
             'date_end' => 'required|date',
-            'status' => 'required|in:-2,-1'
+            'status' => 'required|in:-2,-1,0'
         ]);
         $jemaat->date_end = $request->date_end;
         $jemaat->status = $request->status;

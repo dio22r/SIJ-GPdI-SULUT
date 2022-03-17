@@ -12,9 +12,11 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
+                    @can("create", new App\Models\MhJemaat())
                     <a href="{{ route('master-jemaat.create') }}" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus"></i> Tambah
                     </a>
+                    @endcan
                 </div>
                 <div class="col-md-4 offset-md-2">
                     <form method="GET">
@@ -27,15 +29,16 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-sm align-middle">
                     <thead>
                         <tr>
                             <th scope="col" width="5%">#</th>
                             <th scope="col" width="35%">Nama</th>
-                            <th scope="col" width="10%">Tgl. Lahir</th>
-                            <th scope="col" width="15%">JK</th>
+                            <th scope="col" width="15%">Tgl. Lahir</th>
+                            <th scope="col" width="8%">Umur</th>
+                            <th scope="col" width="7%">JK</th>
                             <th scope="col" width="15%">Status</th>
-                            <th scope="col" width="20%">Action</th>
+                            <th scope="col" width="15%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,18 +47,23 @@
                             <th scope="row"> {{ $listJemaat->firstItem() + $loop->index }} </th>
                             <td>
                                 <a href="{{ route('master-jemaat.detail', ['jemaat' => $jemaat->id]) }}">{{ $jemaat->name }}</a>
-                                ({{ $jemaat->age }} thn)
                             </td>
                             <td>{{ $jemaat->date_birth }}</td>
-                            <td>{{ $jemaat->formatSex() }}</td>
+                            <td><strong>{{ $jemaat->age }} thn</strong></td>
+                            <td>{{ $jemaat->sex }}</td>
                             <td>{{ $jemaat->formatMaritalStatus() }}</td>
                             <td>
+                                @can("update", $jemaat)
                                 <a href="{{ route('master-jemaat.edit', ['jemaat' => $jemaat->id]) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-pen"></i>
                                 </a>
+                                @endcan
+
+                                @can("delete", $jemaat)
                                 <a href="{{ route('master-jemaat.delete', ['jemaat' => $jemaat->id]) }}" class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                                @endcan
                             </td>
                         </tr>
                         @endforeach

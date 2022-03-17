@@ -55,9 +55,9 @@
                 @method('DELETE')
                 @csrf
                 <div class="row mb-3">
-                    <label for="sex" class="col-sm-2 col-form-label">Alasan dihapus</label>
+                    <label for="status" class="col-sm-2 col-form-label">Alasan dihapus</label>
                     <div class="col-sm-5">
-                        <select class="form-select" name="status" id="sex" aria-label="Default">
+                        <select class="form-select @error('status') is-invalid @enderror" name="status" id="sex" aria-label="Default">
                             <option value="0" @if(old('status')==0) selected @endif>
                                 Data Tidak Valid
                             </option>
