@@ -7,15 +7,18 @@
                 @if($menu->type == 1)
                 <div class="sb-sidenav-menu-heading">{{ $menu->name }}</div>
                 @elseif($menu->type == 2)
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                @php
+                $isCollapse = $menu->Children->containsStrict('code', Request::segment(2));
+                @endphp
+                <a class="nav-link @if (!$isCollapse) collapsed @endif" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="{{ $isCollapse ? 'true' : 'false' }}" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="{{ $menu->icon }}"></i></div>
                     {{ $menu->name }}
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <div class="collapse @if ($isCollapse) show @endif" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         @foreach($menu->Children as $menuChildren)
-                        <a class="nav-link @if (Request::is('admin/' . $menu->code . '*')) active @endif" href="{{ url('admin/' . $menu->code) }}">
+                        <a class="nav-link @if (Request::is('admin/' . $menuChildren->code . '*')) active @endif" href="{{ url('admin/' . $menuChildren->code) }}">
                             <div class="sb-nav-link-icon" style="width:20px">
                                 <i class="{{ $menuChildren->icon }}"></i>
                             </div>

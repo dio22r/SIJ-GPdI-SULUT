@@ -143,6 +143,8 @@
     tinymce.init({
         selector: 'textarea.tinymce',
         menubar: false,
+        plugins: 'lists link image imagetools ',
+        toolbar: 'undo redo | styleselect | bold italic | numlist bullist | link image',
         height: 300
     });
 
