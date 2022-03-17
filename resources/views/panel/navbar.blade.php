@@ -1,4 +1,4 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-navbar shadow">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="{{ route('home') }}">
         <img src="{{ url('/assets/img/logo-gpdi.png') }}" width="22px" />

@@ -34,6 +34,22 @@ class MhJemaat extends Model
         return Carbon::parse($this->date_birth)->age;
     }
 
+    public function getFrontTitleAttribute()
+    {
+        if ($this->marital_status == 'S') {
+            if ($this->sex == 'L') return "Sdr.";
+            return "Sdri.";
+        }
+
+        if ($this->sex == 'L') return "Bpk.";
+        return "Ibu";
+    }
+
+    public function getAgeByDate(String $date)
+    {
+        return Carbon::parse($this->date_birth)->diff(Carbon::parse($date))->y;
+    }
+
     public function formatMaritalStatus()
     {
         return self::$maritalStatus[$this->marital_status]

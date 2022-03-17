@@ -27,7 +27,7 @@ class GerejaRequest extends FormRequest
             "name" => "required",
             "address" => "required",
             "date_birth" => "nullable|date",
-            "mh_wilayah_id" => "required"
+            "mh_wilayah_id" => "nullable"
         ];
     }
 }

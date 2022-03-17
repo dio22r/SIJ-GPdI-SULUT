@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileGerejaController;
 use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
+use App\Http\Controllers\Tools\HutSepekanController;
 use App\Http\Controllers\UserManagementController;
 
 use Illuminate\Support\Facades\Auth;
@@ -167,6 +168,11 @@ Route::group([
             Route::get("/edit", [ProfileGerejaController::class, 'edit'])->name('profile-gereja.edit');
 
             Route::put("/edit", [ProfileGerejaController::class, 'update'])->name('profile-gereja.update');
+        });
+
+
+        Route::group(["prefix" => "/hut-sepekan"], function () {
+            Route::get("/", [HutSepekanController::class, 'index'])->name('hut-sepekan.index');
         });
     });
 });
