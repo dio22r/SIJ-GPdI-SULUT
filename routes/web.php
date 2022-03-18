@@ -56,12 +56,15 @@ Auth::routes([
 Route::get('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "showRegistrationForm"])->name("register.gembala");
 Route::post('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "register"])->name("register.gembala");
 
+
 Route::group([
     "middleware" => ["auth"],
     "prefix" => "admin"
 ], function () {
 
+
     Route::get('/', [ProfileController::class, 'show'])->name('home');
+    Route::post('/onesignal', [ProfileController::class, 'subscribe'])->name('onesignal.subscribe');
 
     Route::get('/my-account', [ProfileController::class, 'show'])->name('account');
     Route::get('/edit-account', [ProfileController::class, 'edit'])->name('account.edit');
@@ -170,9 +173,21 @@ Route::group([
             Route::put("/edit", [ProfileGerejaController::class, 'update'])->name('profile-gereja.update');
         });
 
-
         Route::group(["prefix" => "/hut-sepekan"], function () {
             Route::get("/", [HutSepekanController::class, 'index'])->name('hut-sepekan.index');
+        });
+
+
+        Route::group(["prefix" => "/user-management-gereja"], function () {
+            Route::get("/", [MasterJemaatController::class, 'index'])->name('user-management-gereja.index');
+            Route::get("/create", [MasterJemaatController::class, 'create'])->name('user-management-gereja.create');
+            Route::get("/{jemaat}", [MasterJemaatController::class, 'show'])->name('user-management-gereja.detail');
+            Route::get("/{jemaat}/edit", [MasterJemaatController::class, 'edit'])->name('user-management-gereja.edit');
+            Route::get("/{jemaat}/delete", [MasterJemaatController::class, 'delete'])->name('user-management-gereja.delete');
+
+            Route::post("/", [MasterJemaatController::class, 'store'])->name('user-management-gereja.store');
+            Route::put("/{jemaat}", [MasterJemaatController::class, 'update'])->name('user-management-gereja.update');
+            Route::delete("/{jemaat}", [MasterJemaatController::class, 'destroy'])->name('user-management-gereja.destroy');
         });
     });
 });

@@ -24,13 +24,41 @@
             OneSignal.init({
                 appId: "91356bb4-6683-4356-bdb7-f825b6cf5eb2",
             });
+
+            OneSignal.isPushNotificationsEnabled().then(function(isEnabled) {
+                if (isEnabled)
+                    console.log("Push notifications are enabled!");
+                else
+                    console.log("Push notifications are not enabled yet.");
+            });
         });
+
+        window.onload = function() {
+            OneSignal.push(function() {
+                OneSignal.getUserId().then(function(userId) {
+                    console.log("OneSignal User ID:", userId);
+                    axios.post('{{ route("onesignal.subscribe") }}', {
+                            uid: userId,
+                            _token: "{{ csrf_token() }}"
+                        })
+                        .then(function(response) {
+                            console.log(response);
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+
+                    // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
+                });
+            });
+        };
     </script>
 
     <style>
         .bg-navbar {
             background: rgb(199, 23, 47);
             background: linear-gradient(90deg, rgba(199, 23, 47, 1) 0%, rgba(91, 75, 237, 1) 100%);
+            border-bottom: 2px solid yellow;
             /* background-image: linear-gradient(90deg, #1b29d1, #8e00bf, #c400a8, #e8008f, #ff0077); */
         }
     </style>

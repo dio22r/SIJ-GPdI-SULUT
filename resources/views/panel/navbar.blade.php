@@ -1,8 +1,8 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-navbar shadow">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="{{ route('home') }}">
+    <a class="navbar-brand ps-3 d-flex align-middle" href="{{ route('home') }}">
         <img src="{{ url('/assets/img/logo-gpdi.png') }}" width="22px" />
-        {{ config('app.name', 'Laravel') }}
+        <span class="ms-md-3 ms-1">{{ config('app.name', 'Laravel') }}</span>
     </a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>

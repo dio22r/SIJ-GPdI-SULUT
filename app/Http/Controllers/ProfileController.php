@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
+use App\Models\MdUserOnesignal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,5 +45,20 @@ class ProfileController extends Controller
         });
 
         return redirect()->route("account");
+    }
+
+    public function subscribe(Request $request)
+    {
+        $request->validate(["uid" => "required"]);
+
+        $userOnesignal = MdUserOnesignal::where("user_id", "=", Auth::id())
+            ->first();
+
+        if (!$userOnesignal) $userOnesignal = new MdUserOnesignal();
+
+        $userOnesignal->user_id = Auth::id();
+        $userOnesignal->uid = $request->uid;
+
+        return response($userOnesignal->save(), 200);
     }
 }

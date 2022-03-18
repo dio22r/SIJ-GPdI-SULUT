@@ -59,4 +59,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphedByMany(MhWilayah::class, "ref", "user_role");
     }
+
+    public function MdUserOnesignal()
+    {
+        return $this->hasOne(MdUserOnesignal::class);
+    }
 }
