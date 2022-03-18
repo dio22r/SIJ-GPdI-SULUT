@@ -36,9 +36,10 @@
         window.onload = function() {
             OneSignal.push(function() {
                 OneSignal.getUserId().then(function(userId) {
-                    console.log("OneSignal User ID:", userId);
+
                     axios.post('{{ route("onesignal.subscribe") }}', {
                             uid: userId,
+                            device: navigator.platform,
                             _token: "{{ csrf_token() }}"
                         })
                         .then(function(response) {

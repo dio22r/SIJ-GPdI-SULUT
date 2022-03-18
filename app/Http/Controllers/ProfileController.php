@@ -52,11 +52,13 @@ class ProfileController extends Controller
         $request->validate(["uid" => "required"]);
 
         $userOnesignal = MdUserOnesignal::where("user_id", "=", Auth::id())
+            ->where("device", "=", $request->device)
             ->first();
 
         if (!$userOnesignal) $userOnesignal = new MdUserOnesignal();
 
         $userOnesignal->user_id = Auth::id();
+        $userOnesignal->device = $request->device;
         $userOnesignal->uid = $request->uid;
 
         return response($userOnesignal->save(), 200);

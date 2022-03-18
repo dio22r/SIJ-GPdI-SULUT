@@ -62,6 +62,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function MdUserOnesignal()
     {
-        return $this->hasOne(MdUserOnesignal::class);
+        return $this->hasMany(MdUserOnesignal::class);
     }
 }
