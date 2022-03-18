@@ -59,6 +59,7 @@ class ProfileController extends Controller
 
         $userOnesignal->user_id = Auth::id();
         $userOnesignal->device = $request->device;
+        $userOnesignal->is_active = true;
         $userOnesignal->uid = $request->uid;
 
         return response($userOnesignal->save(), 200);
