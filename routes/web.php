@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterGerejaController;
-use App\Http\Controllers\Gereja\ProfileGembalaController;
+use App\Http\Controllers\Gereja\BiodataGembalaController;
 use App\Http\Controllers\Gereja\UserManagementGerejaController;
 use App\Http\Controllers\Gereja\ProfileGerejaController;
 use App\Http\Controllers\MasterGembalaController;
@@ -175,11 +175,11 @@ Route::group([
             Route::put("/edit", [ProfileGerejaController::class, 'update'])->name('profile-gereja.update');
         });
 
-        Route::group(["prefix" => "/profile-gembala"], function () {
-            Route::get("/", [ProfileGembalaController::class, 'show'])->name('profile-gembala.detail');
-            Route::get("/edit", [ProfileGembalaController::class, 'edit'])->name('profile-gembala.edit');
+        Route::group(["prefix" => "/biodata-gembala"], function () {
+            Route::get("/", [BiodataGembalaController::class, 'show'])->name('biodata-gembala.detail');
+            Route::get("/edit", [BiodataGembalaController::class, 'edit'])->name('biodata-gembala.edit');
 
-            Route::put("/edit", [ProfileGembalaController::class, 'update'])->name('profile-gembala.update');
+            Route::put("/edit", [BiodataGembalaController::class, 'update'])->name('profile-gembala.update');
         });
 
         Route::group(["prefix" => "/hut-sepekan"], function () {
