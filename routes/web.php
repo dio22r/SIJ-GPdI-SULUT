@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterGerejaController;
+use App\Http\Controllers\Gereja\ProfileGembalaController;
+use App\Http\Controllers\Gereja\UserManagementGerejaController;
+use App\Http\Controllers\Gereja\ProfileGerejaController;
 use App\Http\Controllers\MasterGembalaController;
 use App\Http\Controllers\MasterGerejaController;
 use App\Http\Controllers\MasterJemaatController;
@@ -8,7 +11,6 @@ use App\Http\Controllers\MasterUserGerejaController;
 use App\Http\Controllers\MasterWilayahController;
 use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfileGerejaController;
 use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\Tools\HutSepekanController;
@@ -173,21 +175,27 @@ Route::group([
             Route::put("/edit", [ProfileGerejaController::class, 'update'])->name('profile-gereja.update');
         });
 
+        Route::group(["prefix" => "/profile-gembala"], function () {
+            Route::get("/", [ProfileGembalaController::class, 'show'])->name('profile-gembala.detail');
+            Route::get("/edit", [ProfileGembalaController::class, 'edit'])->name('profile-gembala.edit');
+
+            Route::put("/edit", [ProfileGembalaController::class, 'update'])->name('profile-gembala.update');
+        });
+
         Route::group(["prefix" => "/hut-sepekan"], function () {
             Route::get("/", [HutSepekanController::class, 'index'])->name('hut-sepekan.index');
         });
 
 
         Route::group(["prefix" => "/user-management-gereja"], function () {
-            Route::get("/", [MasterJemaatController::class, 'index'])->name('user-management-gereja.index');
-            Route::get("/create", [MasterJemaatController::class, 'create'])->name('user-management-gereja.create');
-            Route::get("/{jemaat}", [MasterJemaatController::class, 'show'])->name('user-management-gereja.detail');
-            Route::get("/{jemaat}/edit", [MasterJemaatController::class, 'edit'])->name('user-management-gereja.edit');
-            Route::get("/{jemaat}/delete", [MasterJemaatController::class, 'delete'])->name('user-management-gereja.delete');
+            Route::get("/", [UserManagementGerejaController::class, 'index'])->name('user-management-gereja.index');
+            Route::get("/create", [UserManagementGerejaController::class, 'create'])->name('user-management-gereja.create');
+            Route::get("/{user}", [UserManagementGerejaController::class, 'show'])->name('user-management-gereja.detail');
+            Route::get("/{user}/edit", [UserManagementGerejaController::class, 'edit'])->name('user-management-gereja.edit');
 
-            Route::post("/", [MasterJemaatController::class, 'store'])->name('user-management-gereja.store');
-            Route::put("/{jemaat}", [MasterJemaatController::class, 'update'])->name('user-management-gereja.update');
-            Route::delete("/{jemaat}", [MasterJemaatController::class, 'destroy'])->name('user-management-gereja.destroy');
+            Route::post("/", [UserManagementGerejaController::class, 'store'])->name('user-management-gereja.store');
+            Route::put("/{user}", [UserManagementGerejaController::class, 'update'])->name('user-management-gereja.update');
+            Route::delete("/{user}", [UserManagementGerejaController::class, 'destroy'])->name('user-management-gereja.destroy');
         });
     });
 });

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\MhJemaat;
 use App\Policies\JemaatPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
-        MhJemaat::class => JemaatPolicy::class
+        MhJemaat::class => JemaatPolicy::class,
+        User::class => UserPolicy::class
     ];
 
     /**

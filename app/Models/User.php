@@ -64,4 +64,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(MdUserOnesignal::class);
     }
+
+    public function isAdmin()
+    {
+        $count = $this->Role->whereIn("id", [1, 2])->count();
+        return $count > 0 ? true : false;
+    }
 }
