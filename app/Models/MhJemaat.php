@@ -36,6 +36,8 @@ class MhJemaat extends Model
 
     public function getFrontTitleAttribute()
     {
+        if ($this->age <= 11) return 'Adik';
+
         if ($this->marital_status == 'S') {
             if ($this->sex == 'L') return "Sdr.";
             return "Sdri.";
