@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Gereja;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\GerejaRequest;
 use App\Models\MhGembala;
 use App\Models\MhWilayah;
