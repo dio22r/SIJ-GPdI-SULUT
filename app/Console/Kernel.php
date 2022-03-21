@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
             //Pengecekan apakah cronjob berhasil atau tidak
             //Mencatat info log
             Log::info('Cronjob berhasil dijalankan');
-        })->everyMinutes();
+        })->everyMinute();
     }
 
     /**
