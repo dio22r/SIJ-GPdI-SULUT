@@ -27,8 +27,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->call(JemaatPushNotifHelper::prepareBirthdayNotif())->dailyAt('11:00');
-        $schedule->call(JemaatPushNotifHelper::sendBirthdayNotif())->everyTenMinutes();
+        $schedule->call(function () {
+            JemaatPushNotifHelper::prepareBirthdayNotif();
+        })->dailyAt('11:00');
+        $schedule->call(function () {
+            JemaatPushNotifHelper::sendBirthdayNotif();
+        })->everyTenMinutes();
 
         // $schedule->call(function () {
 
