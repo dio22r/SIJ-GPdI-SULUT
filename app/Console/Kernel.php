@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Helpers\JemaatPushNotifHelper;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,6 +27,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        // $schedule->call(JemaatPushNotifHelper::prepareBirthdayNotif())->dailyAt('12.00');
+        // $schedule->call(JemaatPushNotifHelper::sendBirthdayNotif())->everyFiveMinutes();
+
+        $schedule->call(function () {
+
+            //Pengecekan apakah cronjob berhasil atau tidak
+            //Mencatat info log
+            Log::info('Cronjob berhasil dijalankan');
+        })->everyMinutes();
     }
 
     /**
@@ -34,7 +45,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
