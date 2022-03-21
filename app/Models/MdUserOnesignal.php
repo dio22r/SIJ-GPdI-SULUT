@@ -15,4 +15,9 @@ class MdUserOnesignal extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function JhOnesignal()
+    {
+        return $this->belongsToMany(JhOnesignal::class, "jd_onesignal");
+    }
 }

@@ -17,6 +17,8 @@ class MhJemaat extends Model
         "email", "blood_group", "marital_status", "job", "activity"
     ];
 
+
+
     public static $maritalStatus = [
         'S' => "Single",
         'M' => "Menikah",
@@ -45,6 +47,17 @@ class MhJemaat extends Model
 
         if ($this->sex == 'L') return "Bpk.";
         return "Ibu";
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->front_title . " " . $this->name;
+    }
+
+    public function getFirstNameAttribute()
+    {
+
+        return $this->front_title . " " . explode(" ", $this->name)[0];
     }
 
     public function getAgeByDate(String $date)
