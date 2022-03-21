@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\MhGereja;
 use Berkayk\OneSignal\OneSignalFacade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class JemaatPushNotifHelper
 {
@@ -24,7 +25,8 @@ class JemaatPushNotifHelper
         $jhOnesignal = JhOnesignal::where("tag", "=", "hut:" . $date->format("Y-m-d"))->count();
 
         if ($jhOnesignal > 0 && !$isForceGenerate) {
-            return "Data HUT untuk " . $date->isoFormat('dddd, D MMMM Y') . " sudah diproses";
+            Log::info("Data HUT untuk " . $date->isoFormat('dddd, D MMMM Y') . " sudah diproses");
+            return false;
         }
 
         $listGereja = MhGereja::with(["MhJemaat" => function ($query) use ($date) {
@@ -33,6 +35,12 @@ class JemaatPushNotifHelper
             return $query->whereRaw("DATE_FORMAT(date_birth, '%m-%d') = ?", [$date->format("m-d")]);
         })->has('User')->get();
 
+        if ($listGereja->count() < 1) {
+            Log::info('Tidak ada data ulang tahun hari ' . $date->isoFormat('dddd, D MMMM Y'));
+            return false;
+        }
+
+        Log::info('Generate Birthday Notif Start');
         DB::transaction(function () use ($listGereja, $date) {
             foreach ($listGereja as $gereja) {
                 $name = $gereja->MhJemaat->pluck("first_name")->join(", ");
@@ -56,7 +64,7 @@ class JemaatPushNotifHelper
             }
         });
 
-        return "Data HUT untuk " . $date->isoFormat('dddd, D MMMM Y') . " berhasil.";
+        Log::info("Generate Data HUT untuk " . $date->isoFormat('dddd, D MMMM Y') . ": berhasil.");
     }
 
     public static function sendBirthdayNotif()
@@ -73,6 +81,14 @@ class JemaatPushNotifHelper
             ->take(100)->get();
 
         $dataSend = [];
+
+        if ($jhOnesignal->count() > 0) {
+            Log::info('Send Onesignal Start');
+        } else {
+            Log::info('No Data Onesignal Send');
+            return false;
+        }
+
         foreach ($jhOnesignal as $onesignalQue) {
             $params['headings'] = ["en" => $onesignalQue->headings];
             try {
@@ -94,9 +110,8 @@ class JemaatPushNotifHelper
                 $onesignalQue->save();
             }
 
-            $dataSend[] = $onesignalQue->headings . " " . ($status ? "berhasil" : "gagal");
+            Log::info("Pengiriman Notif " . $onesignalQue->headings . ": " . ($status ? "berhasil" : "gagal"));;
         }
-
-        return $dataSend;
+        Log::info('Send Onesignal Done');
     }
 }
