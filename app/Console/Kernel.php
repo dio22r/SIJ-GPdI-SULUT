@@ -27,15 +27,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->call(JemaatPushNotifHelper::prepareBirthdayNotif())->dailyAt('11.00');
+        $schedule->call(JemaatPushNotifHelper::prepareBirthdayNotif())->dailyAt('11:00');
         $schedule->call(JemaatPushNotifHelper::sendBirthdayNotif())->everyTenMinutes();
 
-        $schedule->call(function () {
+        // $schedule->call(function () {
 
-            //Pengecekan apakah cronjob berhasil atau tidak
-            //Mencatat info log
-            Log::info('Cronjob berhasil dijalankan');
-        })->everyMinute();
+        //     //Pengecekan apakah cronjob berhasil atau tidak
+        //     //Mencatat info log
+        //     Log::info('Cronjob berhasil dijalankan');
+        // })->everyMinute();
     }
 
     /**
