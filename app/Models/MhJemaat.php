@@ -56,7 +56,6 @@ class MhJemaat extends Model
 
     public function getFirstNameAttribute()
     {
-
         return $this->front_title . " " . explode(" ", $this->name)[0];
     }
 

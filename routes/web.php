@@ -1,7 +1,10 @@
 <?php
 
+use App\Helpers\JemaatPushNotifHelper;
 use App\Http\Controllers\Auth\RegisterGerejaController;
 use App\Http\Controllers\Gereja\BiodataGembalaController;
+use App\Http\Controllers\Gereja\MasterKelompokController;
+use App\Http\Controllers\Gereja\MasterKeluargaController;
 use App\Http\Controllers\Gereja\UserManagementGerejaController;
 use App\Http\Controllers\Gereja\ProfileGerejaController;
 use App\Http\Controllers\MasterGembalaController;
@@ -20,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,6 +170,28 @@ Route::group([
             Route::post("/", [MasterJemaatController::class, 'store'])->name('master-jemaat.store');
             Route::put("/{jemaat}", [MasterJemaatController::class, 'update'])->name('master-jemaat.update');
             Route::delete("/{jemaat}", [MasterJemaatController::class, 'destroy'])->name('master-jemaat.destroy');
+        });
+
+        Route::group(["prefix" => "/master-kelompok"], function () {
+            Route::get("/", [MasterKelompokController::class, 'index'])->name('master-kelompok.index');
+            Route::get("/create", [MasterKelompokController::class, 'create'])->name('master-kelompok.create');
+            Route::get("/{kelompok}", [MasterKelompokController::class, 'show'])->name('master-kelompok.detail');
+            Route::get("/{kelompok}/edit", [MasterKelompokController::class, 'edit'])->name('master-kelompok.edit');
+
+            Route::post("/", [MasterKelompokController::class, 'store'])->name('master-kelompok.store');
+            Route::put("/{kelompok}", [MasterKelompokController::class, 'update'])->name('master-kelompok.update');
+            Route::delete("/{kelompok}", [MasterKelompokController::class, 'destroy'])->name('master-kelompok.destroy');
+        });
+
+        Route::group(["prefix" => "/master-keluarga"], function () {
+            Route::get("/", [MasterKeluargaController::class, 'index'])->name('master-keluarga.index');
+            Route::get("/create", [MasterKeluargaController::class, 'create'])->name('master-keluarga.create');
+            Route::get("/{keluarga}", [MasterKeluargaController::class, 'show'])->name('master-keluarga.detail');
+            Route::get("/{keluarga}/edit", [MasterKeluargaController::class, 'edit'])->name('master-keluarga.edit');
+
+            Route::post("/", [MasterKeluargaController::class, 'store'])->name('master-keluarga.store');
+            Route::put("/{keluarga}", [MasterKeluargaController::class, 'update'])->name('master-keluarga.update');
+            Route::delete("/{keluarga}", [MasterKeluargaController::class, 'destroy'])->name('master-keluarga.destroy');
         });
 
         Route::group(["prefix" => "/profile-gereja"], function () {
