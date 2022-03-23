@@ -102,7 +102,7 @@
                         @endforeach
                     </ul>
 
-                    @if (!$dataHut)
+                    @if ($dataHut->count() == 0)
                     Tidak ada Ulang Tahun Hari ini.
                     @endif
                 </div>
