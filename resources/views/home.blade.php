@@ -101,6 +101,10 @@
                         </li>
                         @endforeach
                     </ul>
+
+                    @if (!$dataHut)
+                    Tidak ada Ulang Tahun Hari ini.
+                    @endif
                 </div>
             </div>
         </div>

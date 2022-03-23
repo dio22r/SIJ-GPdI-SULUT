@@ -46,6 +46,10 @@
                 </ul>
             </div>
             @endforeach
+
+            @if (!$arrHut)
+            <div class="mt-3">Tidak ada Ulang Tahun Minggu ini.</div>
+            @endif
         </div>
     </div>
 </div>
