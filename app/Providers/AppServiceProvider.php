@@ -37,15 +37,15 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::user()->hasVerifiedEmail()) {
                 $roles = Auth::user()->Role;
                 if ($roles) {
-                    $role = $roles[0];
-                    $sidemenu = Menu::with(["Children" => function ($query) use ($role) {
-                        $query->whereHas('Role', function ($query) use ($role) {
-                            return $query->where("roles.id", "=", $role->id);
+
+                    $sidemenu = Menu::with(["Children" => function ($query) use ($roles) {
+                        $query->whereHas('Role', function ($query) use ($roles) {
+                            return $query->whereIn("roles.id", $roles->pluck("id")->toArray());
                         });
                     }])->orderBy('order')
                         ->doesntHave('Parent')
-                        ->whereHas('Role', function ($query) use ($role) {
-                            return $query->where("roles.id", "=", $role->id);
+                        ->whereHas('Role', function ($query) use ($roles) {
+                            return $query->whereIn("roles.id", $roles->pluck("id")->toArray());
                         })->get();
                 }
             }

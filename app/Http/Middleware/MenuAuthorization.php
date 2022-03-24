@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Menu;
+use App\Models\MenuAction;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,16 +29,18 @@ class MenuAuthorization
         $roles = Auth::user()->Role;
         if (!$roles) abort(403);
 
-        $role = $roles[0];
-        $menu = Menu::whereHas("Role", function ($query) use ($role) {
-            return $query->where("roles.id", "=", $role->id);
+        $menu = Menu::whereHas("Role", function ($query) use ($roles) {
+            return $query->whereIn("roles.id", $roles->pluck("id")->toArray());
         })->where("menus.code", "=", $menuCode)
             ->first();
 
         if (!$menu) abort(403);
 
-        $menuActions = $role->MenuAction()
-            ->where("menu_id", "=", $menu->id)->get();
+        $menuActions = MenuAction::query()
+            ->whereHas("Role", function ($query) use ($roles) {
+                return $query->whereIn("roles.id", $roles->pluck("id")->toArray());
+            })->where("menu_id", "=", $menu->id)
+            ->get();
 
         foreach ($menuActions as $menuAction) {
             Gate::define($menuAction->code, function ($user) {
