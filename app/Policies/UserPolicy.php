@@ -47,7 +47,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return Gate::allows('user-management-gereja_add');
+        return Gate::allows('user-management-gereja_create');
     }
 
     /**
