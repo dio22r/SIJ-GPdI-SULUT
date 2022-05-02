@@ -12,6 +12,13 @@ class MhGembala extends Model
 
     protected $table = 'mh_gembala';
 
+    protected $casts = [
+        'nik' => "encrypted",
+        "no_kk" => "encrypted",
+        "bank_account_num" => "encrypted",
+        "bank_account_name" => "encrypted"
+    ];
+
     public function MhGereja()
     {
         return $this->hasOne(MhGereja::class);

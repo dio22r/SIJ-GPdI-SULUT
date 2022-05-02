@@ -205,7 +205,7 @@ Route::group([
             Route::get("/", [BiodataGembalaController::class, 'show'])->name('biodata-gembala.detail');
             Route::get("/edit", [BiodataGembalaController::class, 'edit'])->name('biodata-gembala.edit');
 
-            Route::put("/edit", [BiodataGembalaController::class, 'update'])->name('profile-gembala.update');
+            Route::put("/edit", [BiodataGembalaController::class, 'update'])->name('biodata-gembala.update');
         });
 
         Route::group(["prefix" => "/hut-sepekan"], function () {

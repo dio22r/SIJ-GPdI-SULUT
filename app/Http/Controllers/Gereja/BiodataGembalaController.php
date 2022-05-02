@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Gereja;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GembalaRequest;
 use App\Models\MhGembala;
+use App\Models\MhJemaat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,8 +50,9 @@ class BiodataGembalaController extends Controller
     {
         $gembala = $this->gereja->MhGembala;
 
-        return view('pages.biodata-gembala.form', [
+        return view('pages.gereja.biodata-gembala.form', [
             "gembala" => $gembala,
+            "arrMaritalStatus" => MhJemaat::$maritalStatus,
             "method" => "PUT",
             "action_url" => route('biodata-gembala.update'),
         ]);
@@ -70,7 +72,23 @@ class BiodataGembalaController extends Controller
         DB::transaction(function () use ($request, $gereja) {
 
             $gembala = $gereja->MhGembala ?? new MhGembala();
-            $gembala->name = $request->mh_gembala_nama;
+
+            $gembala->nik = $request->nik;
+            $gembala->no_kk = $request->no_kk;
+            $gembala->name = $request->name;
+            $gembala->sex = $request->sex;
+            $gembala->date_birth = $request->date_birth;
+            $gembala->place_birth = $request->place_birth;
+
+            $gembala->blood_group = $request->blood_group;
+            $gembala->address = $request->address;
+            $gembala->telp = $request->telp;
+            $gembala->email = $request->email;
+            $gembala->marital_status = $request->marital_status;
+            $gembala->baptized_at = $request->baptized_at;
+            $gembala->baptized_place = $request->baptized_place;
+            $gembala->status = $request->status;
+
             $gembala->save();
 
             $gereja->mh_gembala_id = $gembala->id;
