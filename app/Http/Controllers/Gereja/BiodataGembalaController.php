@@ -52,7 +52,7 @@ class BiodataGembalaController extends Controller
 
         return view('pages.gereja.biodata-gembala.form', [
             "gembala" => $gembala,
-            "arrMaritalStatus" => MhJemaat::$maritalStatus,
+            "arrMaritalStatus" => MhGembala::$maritalStatus,
             "method" => "PUT",
             "action_url" => route('biodata-gembala.update'),
         ]);
@@ -87,7 +87,9 @@ class BiodataGembalaController extends Controller
             $gembala->marital_status = $request->marital_status;
             $gembala->baptized_at = $request->baptized_at;
             $gembala->baptized_place = $request->baptized_place;
-            $gembala->status = $request->status;
+
+            $gembala->sk_no = $request->sk_no;
+            $gembala->sk_date = $request->sk_date;
 
             $gembala->save();
 
