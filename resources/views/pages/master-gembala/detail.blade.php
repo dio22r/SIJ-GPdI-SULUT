@@ -11,97 +11,69 @@
             Detail Gereja
         </div>
         <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-2">Gereja</dt>
-                <dd class="col-sm-10">
-                    <h5>{{ $gereja->name }} </h5>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Gembala</dt>
-                <dd class="col-sm-10">
-                    @if ($gereja->MhGembala)
-                    <a href="{{ route('master-gembala.detail', ['gembala' => $gereja->MhGembala->id]) }}">
-                        {{ $gereja->MhGembala->name }}
-                    </a>
-                    @endif
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Wilayah</dt>
-                <dd class="col-sm-10">
-                    @if ($gereja->MhWilayah)
-                    <a href="{{ route('master-wilayah.detail', ['wilayah' => $gereja->MhWilayah->id]) }}">
-                        {{ $gereja->MhWilayah->code }} {{ $gereja->MhWilayah->name }}
-                    </a>
-                    @endif
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Alamat</dt>
-                <dd class="col-sm-10">
-                    {{ $gereja->address }}
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Tanggal SK</dt>
-                <dd class="col-sm-10">
-                    {{ $gereja->date_birth }}
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Profil</dt>
-                <dd class="col-sm-10">
-                    {!! $gereja->profile !!}
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Jadwal</dt>
-                <div class="col-sm-10">
-                    {!! $gereja->schedule !!}
+            <div class="row">
+                <div class="col-sm-6">
+                    <dl class="row">
+                        <dd class="col-sm-12">
+                            <h5>{{ $gembala->name }} </h5>
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Alamat</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->address }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Tgl./Tempat Lahir</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->date_birth }} / {{ $gembala->place_birth }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Telp.</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->telp }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->email }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Jenis Kelamin</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->formatSex() }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Status Pernikahan</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->formatMaritalStatus() }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Tgl./Tempat Baptis</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->baptized_at }} / {{ $gembala->baptized_place }}
+                        </dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">SK Gembala</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->sk_no }} / {{ $gembala->sk_date }}
+                        </dd>
+                    </dl>
                 </div>
-            </dl>
-            <dl class="row">
-                <dt class="col-sm-2">Lokasi</dt>
-                <div class="col-sm-10">
-                    @if($gereja->latitude && $gereja->longitude)
-                    <div id="map" style="height:300px"></div>
-                    @else
-                    -
-                    @endif
-                </div>
-            </dl>
+            </div>
 
-            <a href="{{ url()->previous() }}" class="btn btn-sm btn-primary">Kembali</a>
+            <a href="{{ route('master-gembala.index') }}" class="btn btn-light">Kembali</a>
+            <a href="{{ route('biodata-gembala.edit') }}" class="btn btn-warning">Edit</a>
         </div>
     </div>
 </div>
 
 
-@endsection
-
-@section("js")
-
-<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly" async></script>
-<script>
-    function initMap() {
-        let gereja = @json($gereja);
-        myLatlng = {
-            lat: parseFloat(gereja.latitude),
-            lng: parseFloat(gereja.longitude)
-        };
-
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 7,
-            center: myLatlng,
-        });
-        // Create the initial InfoWindow.
-        let marker = new google.maps.Marker({
-            title: gereja.name,
-            map,
-            position: myLatlng,
-        });
-
-    }
-</script>
 @endsection

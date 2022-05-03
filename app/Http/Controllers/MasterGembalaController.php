@@ -16,16 +16,17 @@ class MasterGembalaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $listGembala = MhGembala::with("MhGereja")
+            ->filters(request(['search']))
             ->paginate(20);
 
         // dd($listGereja);
-        return view(
-            'pages.master-gembala.index',
-            ['listGembala' => $listGembala]
-        );
+        return view('pages.master-gembala.index', [
+            'listGembala' => $listGembala,
+            'search' => $request->search
+        ]);
     }
 
     /**
@@ -36,28 +37,14 @@ class MasterGembalaController extends Controller
     public function create()
     {
         Gate::authorize('master-gembala_add');
-        $gereja = new MhGembala();
+        $gembala = new MhGembala();
 
-        $gereja->name = old("name");
-        $gereja->address = old("address");
-        $gereja->date_birth = old("date_birth");
-        $gereja->profile = old("profile");
-        $gereja->schedule = old("schedule");
-        $gereja->mh_wilayah_id = old("mh_wilayah_id");
-        $gereja->latitude = old("latitude");
-        $gereja->longitude = old("longitude");
-
-        $gereja->mh_gembala_nama = old("mh_gembala_nama");
-
-        return view(
-            'pages.master-gereja.form',
-            [
-                "gereja" => $gereja,
-                "method" => "POST",
-                "action_url" => route('master-gereja.store'),
-                "arrWilayah" => MhWilayah::all(),
-            ]
-        );
+        return view('pages.master-gembala.form', [
+            "gembala" => $gembala,
+            "method" => "POST",
+            "arrMaritalStatus" => MhGembala::$maritalStatus,
+            "action_url" => route('master-gembala.store')
+        ]);
     }
 
     /**
@@ -71,32 +58,9 @@ class MasterGembalaController extends Controller
         Gate::authorize('master-gembala_add');
 
         DB::transaction(function () use ($request) {
-
-            $gereja = new MhGereja();
-
-            if ($request->mh_gembala_nama) {
-                $gembala = new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
-            $gereja->slug = Str::slug($request->name, "-");
-            $gereja->created_name = $request->name;
-            $gereja->name = $request->name;
-
-            $gereja->address = $request->address;
-            $gereja->date_birth = $request->date_birth;
-            $gereja->profile = $request->profile;
-            $gereja->schedule = $request->schedule;
-            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
-            $gereja->latitude = $request->latitude;
-            $gereja->longitude = $request->longitude;
-
-            $gereja->save();
         });
 
-        return redirect()->route("master-gereja.index");
+        return redirect()->route("master-gembala.index");
     }
 
     /**
@@ -105,11 +69,11 @@ class MasterGembalaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(MhGereja $gereja)
+    public function show(MhGembala $gembala)
     {
         return view(
-            "pages.master-gereja.detail",
-            ["gereja" => $gereja]
+            "pages.master-gembala.detail",
+            ["gembala" => $gembala]
         );
     }
 
@@ -119,20 +83,16 @@ class MasterGembalaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(MhGereja $gereja)
+    public function edit(MhGembala $gembala)
     {
         Gate::authorize('master-gembala_update');
-        $gereja->mh_gembala_nama = optional($gereja->MhGembala)->name;
 
-        return view(
-            'pages.master-gereja.form',
-            [
-                "gereja" => $gereja,
-                "method" => "PUT",
-                "action_url" => route('master-gereja.update', ["gereja" => $gereja->id]),
-                "arrWilayah" => MhWilayah::all(),
-            ]
-        );
+        return view('pages.master-gembala.form', [
+            "gembala" => $gembala,
+            "arrMaritalStatus" => MhGembala::$maritalStatus,
+            "method" => "PUT",
+            "action_url" => route('biodata-gembala.update'),
+        ]);
     }
 
     /**

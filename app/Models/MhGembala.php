@@ -45,6 +45,8 @@ class MhGembala extends Model
 
     public function getAgeAttribute()
     {
+        if (!$this->date_birth) return null;
+
         return Carbon::parse($this->date_birth)->age;
     }
 

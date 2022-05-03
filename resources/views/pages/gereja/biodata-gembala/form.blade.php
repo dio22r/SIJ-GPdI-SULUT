@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Form Gereja')
+@section('title', 'Form Gembala')
 
 @section('content')
 
@@ -8,7 +8,7 @@
 <div class="container my-3">
     <div class="card">
         <div class="card-header">
-            Form Gereja
+            Form Gembala
         </div>
         <div class="card-body">
             <form method="post" action="{{ $action_url }}">
