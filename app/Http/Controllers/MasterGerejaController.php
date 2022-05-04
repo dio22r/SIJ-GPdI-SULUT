@@ -71,13 +71,6 @@ class MasterGerejaController extends Controller
 
             $gereja = new MhGereja();
 
-            if ($request->mh_gembala_nama) {
-                $gembala = new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
             $gereja->slug = Str::slug($request->name, "-");
             $gereja->created_name = $request->name;
             $gereja->name = $request->name;
@@ -89,6 +82,11 @@ class MasterGerejaController extends Controller
             $gereja->mh_wilayah_id = $request->mh_wilayah_id;
             $gereja->latitude = $request->latitude;
             $gereja->longitude = $request->longitude;
+
+            if ($request->mh_gembala_id) {
+                $gembala = MhGembala::find($request->mh_gembala_id);
+                $gereja->MhGembala()->associate($gembala);
+            }
 
             $gereja->save();
         });
@@ -145,14 +143,7 @@ class MasterGerejaController extends Controller
     {
         DB::transaction(function () use ($request, $gereja) {
 
-            if ($request->mh_gembala_nama) {
-                $gembala = $gereja->MhGembala ?? new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
-            $gereja->slug = Str::slug($request->name, "-");
+            // $gereja->slug = Str::slug($request->name, "-");
             $gereja->created_name = $request->name;
             $gereja->name = $request->name;
 
@@ -163,6 +154,11 @@ class MasterGerejaController extends Controller
             $gereja->mh_wilayah_id = $request->mh_wilayah_id;
             $gereja->latitude = $request->latitude;
             $gereja->longitude = $request->longitude;
+
+            if ($request->mh_gembala_id) {
+                $gembala = MhGembala::find($request->mh_gembala_id);
+                $gereja->MhGembala()->associate($gembala);
+            }
 
             $gereja->save();
         });
