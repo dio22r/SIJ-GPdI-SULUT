@@ -6,6 +6,7 @@ use App\Http\Requests\GerejaRequest;
 use App\Models\MhGembala;
 use App\Models\MhGereja;
 use App\Models\MhWilayah;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -16,16 +17,18 @@ class MasterGerejaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $listGereja = MhGereja::with("MhWilayah")
-            ->withCount('MhJemaat')->paginate(20);
+        $listGereja = MhGereja::with("MhWilayah", "MhGembala")
+            ->withCount('MhJemaat')
+            ->filters(request(['search']))
+            ->paginate(20);
 
         // dd($listGereja);
-        return view(
-            'pages.master-gereja.index',
-            ['listGereja' => $listGereja]
-        );
+        return view('pages.master-gereja.index', [
+            'listGereja' => $listGereja,
+            'search' => $request->search
+        ]);
     }
 
     /**
