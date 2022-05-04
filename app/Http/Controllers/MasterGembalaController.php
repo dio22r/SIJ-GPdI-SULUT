@@ -44,6 +44,7 @@ class MasterGembalaController extends Controller
             "gembala" => $gembala,
             "method" => "POST",
             "arrMaritalStatus" => MhGembala::$maritalStatus,
+            "arrStatusGembala" => MhGembala::STATUS_GEMBALA,
             "action_url" => route('master-gembala.store')
         ]);
     }
@@ -94,9 +95,12 @@ class MasterGembalaController extends Controller
     {
         Gate::authorize('master-gembala_update');
 
+
+
         return view('pages.master-gembala.form', [
             "gembala" => $gembala,
             "arrMaritalStatus" => MhGembala::$maritalStatus,
+            "arrStatusGembala" => MhGembala::STATUS_GEMBALA,
             "method" => "PUT",
             "action_url" => route('master-gembala.update', ["gembala" => $gembala]),
         ]);

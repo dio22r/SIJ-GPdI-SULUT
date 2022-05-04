@@ -40,6 +40,12 @@ class MhGembala extends Model
         'D' => "Duda"
     ];
 
+    const STATUS_GEMBALA = [
+        1 => "Gembala",
+        2 => "Pendamping",
+        3 => "Calon"
+    ];
+
     public function MhGereja()
     {
         return $this->hasOne(MhGereja::class);
@@ -75,5 +81,11 @@ class MhGembala extends Model
         return $this->sex == 'L'
             ? 'Laki-laki'
             : 'Perempuan';
+    }
+
+    public function formatStatusGembala()
+    {
+        return self::STATUS_GEMBALA[$this->status]
+            ?? self::STATUS_GEMBALA[3];
     }
 }

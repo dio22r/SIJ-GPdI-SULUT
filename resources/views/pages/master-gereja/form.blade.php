@@ -96,7 +96,7 @@
 
                 <div class="row mb-3">
                     <label for="mh_gembala_id" class="col-sm-2 col-form-label">Gembala</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <livewire:select-gembala :gembala="$gereja->MhGembala" />
                         @error('mh_gembala_id')
                         <div class="invalid-feedback">

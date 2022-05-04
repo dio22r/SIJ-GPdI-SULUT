@@ -10,7 +10,6 @@
 
 @section('content')
 
-
 <div class="container my-3">
     <div class="card">
         <div class="card-header">
@@ -112,7 +111,7 @@
                 <div class="row mb-3">
                     <label for="sex" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                     <div class="col-sm-5">
-                        <select class="form-select" name="sex" id="sex" aria-label="Default">
+                        <select class="form-select @error('sex') is-invalid @enderror" name="sex" id="sex" aria-label="Default">
                             <option value="L" @if($gembala->sex == 'L') selected @endif>
                                 Laki-laki
                             </option>
@@ -194,10 +193,28 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="sk_no" class="col-sm-2 col-form-label">Gereja</label>
-                    <div class="col-sm-4">
+                    <label for="mh_gereja_id" class="col-sm-2 col-form-label">Gereja</label>
+                    <div class="col-sm-6">
                         <livewire:select-gereja :gereja="$gembala->MhGereja" />
-                        @error('sk_no')
+                        @error('mh_gereja_id')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="status" class="col-sm-2 col-form-label">Status Gembala</label>
+                    <div class="col-sm-5">
+                        <select class="form-select" name="status" id="status" aria-label="Default">
+                            @foreach ($arrStatusGembala as $key => $status)
+                            <option value="{{ $key }}" @if($gembala->status == $key) selected @endif>
+                                {{ $status }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('status')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>

@@ -66,6 +66,12 @@
                             {{ $gembala->sk_no }} / {{ $gembala->sk_date }}
                         </dd>
                     </dl>
+                    <dl class="row">
+                        <dt class="col-sm-4">Status Gembala</dt>
+                        <dd class="col-sm-8">
+                            {{ $gembala->formatStatusGembala() }}
+                        </dd>
+                    </dl>
                 </div>
             </div>
 
