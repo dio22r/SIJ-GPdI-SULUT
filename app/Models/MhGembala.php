@@ -17,6 +17,15 @@ class MhGembala extends Model
         "nik", "no_kk", "bank_account_num", "bank_account_name"
     ];
 
+
+    protected $fillable = [
+        "code", "nik", "no_kk", "name", "sex", "date_birth",
+        "place_birth", "date_die", "blood_group", "address",
+        "telp", "email", "bank_account_name", "bank_account_num",
+        "marital_status", "baptized_place", "baptized_at",
+        "status", "sk_no", "sk_date"
+    ];
+
     protected $casts = [
         'nik' => "encrypted",
         "no_kk" => "encrypted",

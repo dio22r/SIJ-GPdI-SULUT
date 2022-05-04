@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GembalaRequest;
 use App\Models\MhGembala;
+use App\Models\MhGereja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -58,6 +59,12 @@ class MasterGembalaController extends Controller
         Gate::authorize('master-gembala_add');
 
         DB::transaction(function () use ($request) {
+            $gembala = MhGembala::create($request->all());
+            if ($request->mh_gereja_id) {
+                $gereja = MhGereja::find($request->mh_gereja_id);
+                $gereja->MhGembala()->associate($gembala);
+                $gereja->save();
+            }
         });
 
         return redirect()->route("master-gembala.index");
@@ -91,9 +98,10 @@ class MasterGembalaController extends Controller
             "gembala" => $gembala,
             "arrMaritalStatus" => MhGembala::$maritalStatus,
             "method" => "PUT",
-            "action_url" => route('biodata-gembala.update'),
+            "action_url" => route('master-gembala.update', ["gembala" => $gembala]),
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -102,35 +110,21 @@ class MasterGembalaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GerejaRequest $request, MhGereja $gereja)
+    public function update(GembalaRequest $request, MhGembala $gembala)
     {
         Gate::authorize('master-gembala_update');
 
-        DB::transaction(function () use ($request, $gereja) {
-
-            if ($request->mh_gembala_nama) {
-                $gembala = $gereja->MhGembala ?? new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
+        DB::transaction(function () use ($request, $gembala) {
+            if ($request->mh_gereja_id) {
+                $gereja = MhGereja::find($request->mh_gereja_id);
+                $gereja->MhGembala()->associate($gembala);
+                $gereja->save();
             }
 
-            $gereja->slug = Str::slug($request->name, "-");
-            $gereja->created_name = $request->name;
-            $gereja->name = $request->name;
-
-            $gereja->address = $request->address;
-            $gereja->date_birth = $request->date_birth;
-            $gereja->profile = $request->profile;
-            $gereja->schedule = $request->schedule;
-            $gereja->mh_wilayah_id = $request->mh_wilayah_id;
-            $gereja->latitude = $request->latitude;
-            $gereja->longitude = $request->longitude;
-
-            $gereja->save();
+            $gembala->update($request->all());
         });
 
-        return redirect()->route("master-gereja.index");
+        return redirect()->route("master-gembala.index");
     }
 
     /**

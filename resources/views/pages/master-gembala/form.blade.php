@@ -2,6 +2,12 @@
 
 @section('title', 'Form Gembala')
 
+@section('css')
+
+@livewireStyles
+
+@endsection
+
 @section('content')
 
 
@@ -186,6 +192,19 @@
                         @enderror
                     </div>
                 </div>
+
+                <div class="row mb-3">
+                    <label for="sk_no" class="col-sm-2 col-form-label">Gereja</label>
+                    <div class="col-sm-4">
+                        <livewire:select-gereja :gereja="$gembala->MhGereja" />
+                        @error('sk_no')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <div class="col-sm-10 offset-sm-2">
                         <a href="{{ route('master-gembala.index') }}" class="btn btn-sm btn-light">Kembali</a>
@@ -212,4 +231,7 @@
         height: 300
     });
 </script>
+
+@livewireScripts
+
 @endsection
