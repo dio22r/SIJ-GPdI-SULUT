@@ -38,7 +38,7 @@ class MasterGembalaController extends Controller
     public function create()
     {
         Gate::authorize('master-gembala_add');
-        $gembala = new MhGembala();
+        $gembala = new MhGembala(old());
 
         return view('pages.master-gembala.form', [
             "gembala" => $gembala,
@@ -94,8 +94,6 @@ class MasterGembalaController extends Controller
     public function edit(MhGembala $gembala)
     {
         Gate::authorize('master-gembala_update');
-
-
 
         return view('pages.master-gembala.form', [
             "gembala" => $gembala,
