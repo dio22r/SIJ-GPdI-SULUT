@@ -52,7 +52,7 @@ class BiodataGembalaController extends Controller
     {
         $gembala = $this->gereja->MhGembala;
 
-        if (!$gembala) $gembala = new MhGembala();
+        if (!$gembala) $gembala = new MhGembala(old());
 
         return view('pages.gereja.biodata-gembala.form', [
             "gembala" => $gembala,
