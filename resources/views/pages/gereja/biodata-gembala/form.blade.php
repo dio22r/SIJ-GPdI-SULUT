@@ -188,8 +188,12 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-sm-10 offset-sm-2">
-                        <a href="{{ route('biodata-gembala.detail') }}" class="btn btn-sm btn-light">Kembali</a>
-                        <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                        <a href="{{ route('biodata-gembala.detail') }}" class="btn btn-sm btn-light">
+                            <i class="fas fa-chevron-left"></i> Kembali
+                        </a>
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fas fa-paper-plane"></i> Simpan
+                        </button>
                     </div>
                 </div>
             </form>

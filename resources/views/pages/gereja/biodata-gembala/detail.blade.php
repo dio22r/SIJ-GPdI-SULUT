@@ -73,7 +73,7 @@
             </div>
 
             <a href="{{ route('biodata-gembala.edit') }}" class="btn btn-sm btn-warning">
-                Edit
+                <i class="fas fa-edit"></i> Edit
             </a>
         </div>
     </div>
