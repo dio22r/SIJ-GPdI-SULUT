@@ -8,9 +8,12 @@
 <div class="container my-3">
     <div class="card">
         <div class="card-header">
-            Detail Gereja
+            Biodata Gembala
         </div>
         <div class="card-body">
+            @if (!$gembala->id)
+            <div class="alert alert-warning">Belum Ada Data Gembala</div>
+            @endif
             <div class="row">
                 <div class="col-sm-6">
                     <dl class="row">
@@ -69,7 +72,9 @@
                 </div>
             </div>
 
-            <a href="{{ route('biodata-gembala.edit') }}" class="btn btn-warning">Edit</a>
+            <a href="{{ route('biodata-gembala.edit') }}" class="btn btn-sm btn-warning">
+                Edit
+            </a>
         </div>
     </div>
 </div>
