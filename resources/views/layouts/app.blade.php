@@ -41,6 +41,15 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item me-3">
+                            <a class="nav-link" href="{{ route('login') }}">Wilayah</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link" href="{{ route('login') }}">Gereja</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link" href="{{ route('login') }}">Forum</a>
+                        </li>
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
@@ -76,7 +85,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
     </div>
