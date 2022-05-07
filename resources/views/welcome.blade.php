@@ -35,7 +35,44 @@
     <div> </div>
 </section>
 
-<section id="feature">
+<style>
+    .feature-icon {
+        font-size: 3em;
+        color: #777;
+    }
 
+    .feature-wraper {
+        border: 1px solid #ccc;
+    }
+</style>
+<section id="feature">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 align-item-center py-5">
+                <div class="feature-icon text-center">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <span class="feature-title">STATISTIK JEMAAT</span>
+            </div>
+            <div class="col-md-3 col-6  py-5">
+                <div class="feature-icon text-center">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <span>HUT SEPEKAN</span>
+            </div>
+            <div class="col-md-3 col-6  py-5">
+                <div class="feature-icon text-center">
+                    <i class="fas fa-database"></i>
+                </div>
+                <span>DATA TERPUSAT</span>
+            </div>
+            <div class="col-md-3 col-6  py-5">
+                <div class="feature-icon text-center">
+                    <i class="far fa-bell"></i>
+                </div>
+                <span>NOTIFIKASI HUT</span>
+            </div>
+        </div>
+    </div>
 </section>
 @endsection
