@@ -36,15 +36,15 @@ class WilayahController extends Controller
         ]);
     }
 
-    public function generateSlug()
-    {
-        $listWilayah = MhWilayah::all();
+    // public function generateSlug()
+    // {
+    //     $listWilayah = MhWilayah::all();
 
-        foreach ($listWilayah as $wilayah) {
-            $slug = Str::slug($wilayah->code . "-" . $wilayah->name, "-");
-            $wilayah->slug = Str::limit($slug, 25, "");
-            echo $wilayah->slug . "\n";
-            $wilayah->save();
-        }
-    }
+    //     foreach ($listWilayah as $wilayah) {
+    //         $slug = Str::slug($wilayah->code . "-" . $wilayah->name, "-");
+    //         $wilayah->slug = Str::limit($slug, 25, "");
+    //         echo $wilayah->slug . "\n";
+    //         $wilayah->save();
+    //     }
+    // }
 }
