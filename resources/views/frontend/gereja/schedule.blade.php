@@ -20,14 +20,14 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">
-                            Profil Gereja
+                            Jadwal Ibadah Sepekan
                         </h5>
-                        {!! $gereja->profile !!}
+                        {!! $gereja->schedule !!}
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                @include("frontend.gereja._partial.menu", ["gereja" => $gereja])
+                @include("frontend.gereja._partial.menu")
 
                 @include("frontend.gereja._partial.address-box", ["gereja" => $gereja])
             </div>

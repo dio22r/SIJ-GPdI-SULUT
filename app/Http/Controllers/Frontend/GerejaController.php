@@ -31,4 +31,15 @@ class GerejaController extends Controller
             'gereja' => $gereja
         ]);
     }
+
+    public function schedule(Request $request, String $slug)
+    {
+        $gereja = MhGereja::with("MhWilayah", "MhGembala")
+            ->where("slug", "=", $slug)
+            ->firstOrFail();
+
+        return view("frontend.gereja.schedule", [
+            'gereja' => $gereja
+        ]);
+    }
 }

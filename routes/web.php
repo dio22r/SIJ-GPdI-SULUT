@@ -77,7 +77,8 @@ Route::group(["prefix" => "g"], function () {
         return redirect()->route("front.gereja.index");
     });
     Route::get('/{slug}', [GerejaController::class, 'show'])->name('front.gereja.show');
-    Route::get('/{slug}/feed', [GerejaController::class, 'feed'])->name('front.gereja.feed');
+    Route::get('/{slug}/schedule', [GerejaController::class, 'schedule'])->name('front.gereja.schedule');
+    // Route::get('/{slug}/feed', [GerejaController::class, 'feed'])->name('front.gereja.feed');
 });
 
 
