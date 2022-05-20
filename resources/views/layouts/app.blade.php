@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'GPdI SULUT') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -43,10 +43,10 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ route('login') }}">Wilayah</a>
+                            <a class="nav-link" href="{{ route('front.wilayah.index') }}">Wilayah</a>
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ route('login') }}">Gereja</a>
+                            <a class="nav-link" href="{{ route('front.gereja.index') }}">Gereja</a>
                         </li>
                         <li class="nav-item me-3">
                             <a class="nav-link" target="_blank" href="https://gerejaku.gpdisulut.com/">Forum</a>

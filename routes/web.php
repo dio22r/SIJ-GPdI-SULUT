@@ -2,6 +2,8 @@
 
 use App\Helpers\JemaatPushNotifHelper;
 use App\Http\Controllers\Auth\RegisterGerejaController;
+use App\Http\Controllers\Frontend\GerejaController;
+use App\Http\Controllers\Frontend\WilayahController;
 use App\Http\Controllers\Gereja\BiodataGembalaController;
 use App\Http\Controllers\Gereja\MasterKelompokController;
 use App\Http\Controllers\Gereja\MasterKeluargaController;
@@ -62,13 +64,27 @@ Auth::routes([
 Route::get('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "showRegistrationForm"])->name("register.gembala");
 Route::post('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "register"])->name("register.gembala");
 
+Route::group(["prefix" => "wilayah"], function () {
+    Route::get('/', [WilayahController::class, 'index'])->name('front.wilayah.index');
+    Route::get('/{slug}', [WilayahController::class, 'show'])->name('front.wilayah.show');
+    Route::get('/{slug}/feed', [WilayahController::class, 'feed'])->name('front.wilayah.feed');
+});
+
+Route::get('/gereja', [GerejaController::class, 'index'])->name('front.gereja.index');
+
+Route::group(["prefix" => "g"], function () {
+    Route::get('/', function () {
+        return redirect()->route("front.gereja.index");
+    });
+    Route::get('/{slug}', [GerejaController::class, 'show'])->name('front.gereja.show');
+    Route::get('/{slug}/feed', [GerejaController::class, 'feed'])->name('front.gereja.feed');
+});
+
 
 Route::group([
     "middleware" => ["auth"],
     "prefix" => "admin"
 ], function () {
-
-
     Route::get('/', [ProfileController::class, 'show'])->name('home');
     Route::post('/onesignal', [ProfileController::class, 'subscribe'])->name('onesignal.subscribe');
 
