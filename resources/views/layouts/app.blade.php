@@ -24,7 +24,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'GPdI SULUT') }}
@@ -143,7 +143,7 @@
                 font-weight: 500;
             }
         </style>
-        <section id="footer">
+        <section id="footer" class="shadow-lg">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
