@@ -19,7 +19,7 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">
+                        <h5 class="card-title mb-3">
                             Profil Gereja
                         </h5>
                         {!! $gereja->profile !!}
