@@ -66,6 +66,7 @@ Route::post('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [Regis
 
 Route::group(["prefix" => "wilayah"], function () {
     Route::get('/', [WilayahController::class, 'index'])->name('front.wilayah.index');
+    Route::get('/genslug', [WilayahController::class, 'generateSlug']);
     Route::get('/{slug}', [WilayahController::class, 'show'])->name('front.wilayah.show');
     Route::get('/{slug}/feed', [WilayahController::class, 'feed'])->name('front.wilayah.feed');
 });
