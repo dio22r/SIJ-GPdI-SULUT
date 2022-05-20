@@ -75,4 +75,52 @@
         </div>
     </div>
 </section>
+
+<section id="preview" class="bg-light py-5">
+
+    <div class="container">
+        <div class="display-4 text-center mb-5">
+            Preview
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <div class="card mb-3">
+                    <img src="{{ url('/assets/screenshot/01-GPdI-SULUT-Dashboard.png') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Statistik Jemaat</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="card mb-3">
+                    <img src="{{ url('/assets/screenshot/02-GPdI-SULUT-Data-Hut.png') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Hut Sepekan</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <div class="card mb-3">
+                    <img src="{{ url('/assets/screenshot/03-GPdI-SULUT-Daftar-Gereja.png') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Data Terpusat</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="card mb-3">
+                    <img src="{{ url('/assets/screenshot/04-GPdI-SULUT-Notifikasi.png') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Notifikasi HUT</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 @endsection
