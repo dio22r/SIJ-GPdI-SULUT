@@ -24,9 +24,13 @@
                             @foreach($listWilayah as $wilayah)
                             <tr>
                                 <td>
+                                    @if ($wilayah->slug)
                                     <a href="{{ route('front.wilayah.show', ['slug' => $wilayah->slug]) }}">
                                         {{ $wilayah->code }} {{ $wilayah->name }}
                                     </a>
+                                    @else
+                                    {{ $wilayah->code }} {{ $wilayah->name }}
+                                    @endif
                                 </td>
                                 <td>{{ $wilayah->MhKabupaten->name }}</td>
                                 <td>{{ $wilayah->mh_gereja_count }}</td>
