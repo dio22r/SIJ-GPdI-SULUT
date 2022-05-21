@@ -179,6 +179,8 @@ Route::group([
         });
 
         Route::group(["prefix" => "/master-jemaat"], function () {
+            Route::get("/api-search", [MasterJemaatController::class, 'searchJemaat'])->name('master-jemaat.api-search');
+
             Route::get("/", [MasterJemaatController::class, 'index'])->name('master-jemaat.index');
             Route::get("/create", [MasterJemaatController::class, 'create'])->name('master-jemaat.create');
             Route::get("/{jemaat}", [MasterJemaatController::class, 'show'])->name('master-jemaat.detail');
@@ -210,6 +212,11 @@ Route::group([
             Route::post("/", [MasterKeluargaController::class, 'store'])->name('master-keluarga.store');
             Route::put("/{keluarga}", [MasterKeluargaController::class, 'update'])->name('master-keluarga.update');
             Route::delete("/{keluarga}", [MasterKeluargaController::class, 'destroy'])->name('master-keluarga.destroy');
+
+            Route::get("/{keluarga}/member", [MasterKeluargaController::class, 'showMember'])->name('master-keluarga.member');
+            Route::get("/{keluarga}/member/search", [MasterKeluargaController::class, 'searchMember'])->name('master-keluarga.search');
+            Route::post("/{keluarga}/member", [MasterKeluargaController::class, 'addMember'])->name('master-keluarga.member.add');
+            Route::delete("/{keluarga}/member/{member}", [MasterKeluargaController::class, 'removeMember'])->name('master-keluarga.member.remove');
         });
 
         Route::group(["prefix" => "/profile-gereja"], function () {

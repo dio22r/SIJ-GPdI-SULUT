@@ -38,10 +38,16 @@
                                     @can('update', $keluarga)
                                     <a href="{{ route('master-keluarga.edit', ['keluarga' => $keluarga->id]) }}" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>
                                     @endcan
-                                    @can('update', $keluarga)
+                                    @can('delete', $keluarga)
                                     <button type="submit" class="btn btn-sm btn-danger ">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                    @endcan
+
+                                    @can('view', $keluarga)
+                                    <a href="{{ route('master-keluarga.member', ['keluarga' => $keluarga->id]) }}" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-list"></i>
+                                    </a>
                                     @endcan
                                 </form>
                             </td>

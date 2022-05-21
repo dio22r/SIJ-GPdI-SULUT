@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Gereja;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KeluargaRequest;
+use App\Models\MhJemaat;
 use App\Models\MhKeluarga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class MasterKeluargaController extends Controller
 {
-
     protected $gereja;
 
     public function __construct()
@@ -148,5 +149,52 @@ class MasterKeluargaController extends Controller
     {
         $keluarga->delete();
         return redirect()->route('master-keluarga.index');
+    }
+
+    public function showMember(Request $request, MhKeluarga $keluarga)
+    {
+        $this->authorize('view', $keluarga);
+
+        $listJemaat = MhJemaat::query()
+            ->where("mh_keluarga_id", "=", $keluarga->id)
+            ->orderBy("date_birth", "asc")
+            ->paginate(20);
+
+        return view('pages.gereja.master-keluarga.member.show', [
+            "keluarga" => $keluarga,
+            "listJemaat" => $listJemaat
+        ]);
+    }
+
+    public function addMember(Request $request, MhKeluarga $keluarga)
+    {
+        $this->authorize('update', $keluarga);
+
+        $request->validate(["id_jemaat" => "required"]);
+
+        $jemaat = MhJemaat::query()
+            ->where("mh_gereja_id", "=", $keluarga->mh_gereja_id)
+            ->where("id", "=", $request->id_jemaat)
+            ->firstOrFail();
+
+        $jemaat->mh_keluarga_id = $keluarga->id;
+        $jemaat->save();
+
+        return redirect()->route('master-keluarga.member', ["keluarga" => $keluarga]);
+    }
+
+    public function removeMember(Request $request, MhKeluarga $keluarga, int $member)
+    {
+        $this->authorize('delete', $keluarga);
+
+        $jemaat = MhJemaat::query()
+            ->where("mh_gereja_id", "=", $keluarga->mh_gereja_id)
+            ->where("id", "=", $member)
+            ->firstOrFail();
+
+        $jemaat->mh_keluarga_id = null;
+        $jemaat->save();
+
+        return redirect()->route('master-keluarga.member', ["keluarga" => $keluarga]);
     }
 }
