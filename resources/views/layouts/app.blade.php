@@ -95,7 +95,7 @@
 
         <style>
             #footer {
-                padding: 50px 0px 100px 0px;
+                padding: 50px 0px 70px 0px;
                 color: #555;
             }
 
@@ -135,12 +135,16 @@
             }
 
             #copyright {
-                background-color: #FB0000;
                 padding: 10px 0px 10px 0px;
-                border-bottom: 5px solid #FB0000;
                 color: white;
                 font-size: 12px;
                 font-weight: 500;
+            }
+
+            .bg-copyright {
+                background: rgb(199, 23, 47);
+                background: linear-gradient(90deg, rgba(199, 23, 47, 1) 0%, rgba(91, 75, 237, 1) 100%);
+                border-top: 2px solid yellow;
             }
         </style>
         <section id="footer" class="shadow-lg">
@@ -191,6 +195,11 @@
                 </div>
             </div>
         </section>
+        <div id="copyright" class="bg-copyright">
+            <div class="container">
+                Copyright ©2022 GPdI SULUT. Supported by Jesus Christ.
+            </div>
+        </div>
     </div>
 
     <script src="{{ url('/js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
