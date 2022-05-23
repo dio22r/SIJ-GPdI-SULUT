@@ -29,7 +29,7 @@ class SelectJemaat extends Component
             $this->listJemaat = MhJemaat::query()
                 ->where("name", "like", "%" . $this->text . "%")
                 ->where("mh_gereja_id", "=", $this->idGereja)
-                ->where("status", "=", 1)
+                ->where("status", ">", 0)
                 ->orderBy("name", "asc")
                 ->take(5)->get();
         }

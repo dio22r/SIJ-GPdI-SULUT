@@ -38,7 +38,7 @@ class MasterJemaatController extends Controller
                 return $query->where('mh_gereja.id', "=", $gereja->id);
             })->filters(request(['search']))
             ->orderBy("name")
-            ->where("status", "=", 1)
+            ->where("status", ">", 0)
             ->paginate(20);
 
         // dd($listGereja);
@@ -183,5 +183,20 @@ class MasterJemaatController extends Controller
 
         $jemaat->delete();
         return redirect()->route('master-jemaat.index');
+    }
+
+
+    public function searchJemaat(Request $request)
+    {
+        $gereja = Auth::user()->MhGereja;
+
+        $listJemaat = MhJemaat::query()
+            ->where("mh_gereja_id", "=", $gereja[0]->id)
+            ->filters(request(['search']))
+            ->where("status", "=", 1)
+            ->orderBy("name", "asc")
+            ->take(10)->get();
+
+        return response()->json($listJemaat, 200);
     }
 }
