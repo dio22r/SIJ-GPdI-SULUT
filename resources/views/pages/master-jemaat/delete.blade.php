@@ -61,10 +61,10 @@
                             <option value="0" @if(old('status')==0) selected @endif>
                                 Data Tidak Valid
                             </option>
-                            <option value="-1" @if(old('status')==1) selected @endif>
+                            <option value="-1" @if(old('status')==-1) selected @endif>
                                 Meninggal
                             </option>
-                            <option value="-2" @if(old('status')==2) selected @endif>
+                            <option value="-2" @if(old('status')==-2) selected @endif>
                                 Pindah
                             </option>
                         </select>

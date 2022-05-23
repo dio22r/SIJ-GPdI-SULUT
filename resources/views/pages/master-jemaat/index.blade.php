@@ -37,7 +37,11 @@
                             <th scope="col" width="15%">Tgl. Lahir</th>
                             <th scope="col" width="8%">Umur</th>
                             <th scope="col" width="7%">JK</th>
-                            <th scope="col" width="15%">Status</th>
+                            <th scope="col" width="8%">Status</th>
+                            <th scope="col" width="7%">
+                                <i class="fas fa-home"></i> |
+                                <i class="fas fa-users"></i>
+                            </th>
                             <th scope="col" width="15%">Action</th>
                         </tr>
                     </thead>
@@ -52,6 +56,14 @@
                             <td><strong>{{ $jemaat->age }} thn</strong></td>
                             <td>{{ $jemaat->sex }}</td>
                             <td>{{ $jemaat->formatMaritalStatus() }}</td>
+                            <td>
+                                @if($jemaat->mh_keluarga_id)
+                                <i class="fas fa-home"></i>
+                                @endif
+                                @if($jemaat->mh_kelompok_id)
+                                <i class="fas fa-users"></i>
+                                @endif
+                            </td>
                             <td>
                                 @can("update", $jemaat)
                                 <a href="{{ route('master-jemaat.edit', ['jemaat' => $jemaat->id]) }}" class="btn btn-sm btn-warning">
