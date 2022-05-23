@@ -36,6 +36,7 @@ class MasterKeluargaController extends Controller
         $gereja = $this->gereja;
 
         $listKeluarga = MhKeluarga::with("MhGereja")
+            ->withCount('MhJemaat')
             ->where("mh_gereja_id", "=", $gereja->id)
             ->orderBy("name")
             ->paginate(20);

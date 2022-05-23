@@ -17,4 +17,9 @@ class MhKeluarga extends Model
     {
         return $this->belongsTo(MhGereja::class);
     }
+
+    public function MhJemaat()
+    {
+        return $this->hasMany(MhJemaat::class);
+    }
 }

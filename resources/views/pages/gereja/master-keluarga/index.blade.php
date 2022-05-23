@@ -21,7 +21,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nama</th>
-                            <th scope="col">Descripsi</th>
+                            <th scope="col">Deskripsi</th>
+                            <th scope="col">Jumlah</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -30,7 +31,8 @@
                         <tr>
                             <th scope="row"> {{ $listKeluarga->firstItem() + $loop->index }} </th>
                             <td><a href="{{ route('master-keluarga.detail', ['keluarga' => $keluarga->id]) }}">{{ $keluarga->name }}</a></td>
-                            <td>{{ $keluarga->desc }}</td>
+                            <td>{{ Str::limit($keluarga->desc, 50, " ...") }}</td>
+                            <td>{{ $keluarga->mh_jemaat_count }} Jiwa</td>
                             <td>
                                 <form method="POST" action="{{ route('master-keluarga.destroy', ['keluarga' => $keluarga->id]) }}">
                                     @method('DELETE')
