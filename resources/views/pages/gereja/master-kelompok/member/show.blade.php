@@ -18,7 +18,7 @@
         <div class="card-body">
             <div class="mb-3">
                 <a href="{{ route('master-kelompok.index') }}" class="btn btn-sm btn-dark">
-                    <i class="fas fas-chevron-left"></i> List Kelompok
+                    <i class="fas fa-chevron-left"></i> List Kelompok
                 </a>
             </div>
             @can('update', $kelompok)

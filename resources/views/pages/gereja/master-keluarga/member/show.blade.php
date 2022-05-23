@@ -18,7 +18,7 @@
         <div class="card-body">
             <div class="mb-3">
                 <a href="{{ route('master-keluarga.index') }}" class="btn btn-sm btn-dark">
-                    <i class="fas fas-chevron-left"></i>List Keluarga
+                    <i class="fas fa-chevron-left"></i> List Keluarga
                 </a>
             </div>
             @can('create', new App\Models\MhKeluarga())
