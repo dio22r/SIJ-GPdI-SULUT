@@ -201,6 +201,11 @@ Route::group([
             Route::post("/", [MasterKelompokController::class, 'store'])->name('master-kelompok.store');
             Route::put("/{kelompok}", [MasterKelompokController::class, 'update'])->name('master-kelompok.update');
             Route::delete("/{kelompok}", [MasterKelompokController::class, 'destroy'])->name('master-kelompok.destroy');
+
+            Route::get("/{kelompok}/member", [MasterKelompokController::class, 'showMember'])->name('master-kelompok.member');
+            Route::get("/{kelompok}/member/search", [MasterKelompokController::class, 'searchMember'])->name('master-kelompok.search');
+            Route::post("/{kelompok}/member", [MasterKelompokController::class, 'addMember'])->name('master-kelompok.member.add');
+            Route::delete("/{kelompok}/member/{member}", [MasterKelompokController::class, 'removeMember'])->name('master-kelompok.member.remove');
         });
 
         Route::group(["prefix" => "/master-keluarga"], function () {
