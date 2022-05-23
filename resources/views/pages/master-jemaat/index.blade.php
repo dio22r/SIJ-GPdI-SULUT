@@ -84,7 +84,7 @@
 
             </div>
             <div class="table-responsive">
-                {{ $listJemaat->links() }}
+                {{ $listJemaat->withQueryString()->links() }}
             </div>
         </div>
     </div>
