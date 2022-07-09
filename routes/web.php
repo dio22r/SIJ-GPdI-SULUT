@@ -19,6 +19,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\Tools\HutSepekanController;
+use App\Http\Controllers\Tools\MutasiJemaatController;
 use App\Http\Controllers\UserManagementController;
 
 use Illuminate\Support\Facades\Auth;
@@ -242,6 +243,17 @@ Route::group([
             Route::get("/", [HutSepekanController::class, 'index'])->name('hut-sepekan.index');
         });
 
+        Route::group(["prefix" => "/mutasi-jemaat"], function () {
+            Route::get("/", [MutasiJemaatController::class, 'index']);
+            Route::get("/{status}", [MutasiJemaatController::class, 'index'])
+                ->where("status", "(meninggal|pindah|pending)")->name('mutasi-jemaat.index');
+            Route::get("/{jemaat}", [MutasiJemaatController::class, 'show'])->name('mutasi-jemaat.show');
+            Route::get("/{jemaat}/edit", [MutasiJemaatController::class, 'edit'])->name('mutasi-jemaat.edit');
+
+            Route::put("/{jemaat}", [MutasiJemaatController::class, 'update'])->name('mutasi-jemaat.update');
+            Route::post("/{jemaat}", [MutasiJemaatController::class, 'approve'])->name('mutasi-jemaat.approve');
+            Route::get("/{jemaat}/delete", [MutasiJemaatController::class, 'destroy'])->name('mutasi-jemaat.delete');
+        });
 
         Route::group(["prefix" => "/user-management-gereja"], function () {
             Route::get("/", [UserManagementGerejaController::class, 'index'])->name('user-management-gereja.index');
