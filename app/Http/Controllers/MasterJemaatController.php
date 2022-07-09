@@ -42,13 +42,10 @@ class MasterJemaatController extends Controller
             ->paginate(20);
 
         // dd($listGereja);
-        return view(
-            'pages.master-jemaat.index',
-            [
-                'listJemaat' => $listJemaat,
-                'search' => $request->search
-            ]
-        );
+        return view('pages.master-jemaat.index', [
+            'listJemaat' => $listJemaat,
+            'search' => $request->search
+        ]);
     }
 
     /**
@@ -181,7 +178,6 @@ class MasterJemaatController extends Controller
         $jemaat->status = $request->status;
         $jemaat->save();
 
-        $jemaat->delete();
         return redirect()->route('master-jemaat.index');
     }
 

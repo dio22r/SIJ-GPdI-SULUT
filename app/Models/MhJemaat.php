@@ -13,6 +13,7 @@ class MhJemaat extends Model
     use SoftDeletes;
 
     protected $table = 'mh_jemaat';
+
     protected $fillable = [
         "name", "sex", "date_birth", "place_birth", "telp", "address",
         "email", "blood_group", "marital_status", "job", "activity"
@@ -24,6 +25,13 @@ class MhJemaat extends Model
         'M' => "Menikah",
         'J' => "Janda",
         'D' => "Duda"
+    ];
+
+    const MUTATION_STATUS = [
+        1 => "Aktif",
+        0 => "Belum Approved",
+        -1 => "Meninggal",
+        -2 => "Pindah"
     ];
 
     public function MhGereja()
@@ -59,6 +67,11 @@ class MhJemaat extends Model
         return $this->front_title . " " . explode(" ", $this->name)[0];
     }
 
+    public function getMutationFormatedAttribute()
+    {
+        return self::MUTATION_STATUS[$this->status] ?? " - ";
+    }
+
     public function getAgeByDate(String $date)
     {
         return Carbon::parse($this->date_birth)->diff(Carbon::parse($date))->y;
@@ -69,6 +82,7 @@ class MhJemaat extends Model
         return self::$maritalStatus[$this->marital_status]
             ?? self::$maritalStatus['S'];
     }
+
 
     public function formatSex()
     {

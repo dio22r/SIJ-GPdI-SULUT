@@ -19,7 +19,8 @@ class JemaatPolicy
      */
     public function viewAny(User $user)
     {
-        return Gate::allows('master-jemaat_view');
+        return Gate::allows('master-jemaat_view')
+            || Gate::allows('mutasi-jemaat_view');
     }
 
     /**
@@ -31,7 +32,10 @@ class JemaatPolicy
      */
     public function view(User $user, MhJemaat $mhJemaat)
     {
-        if (!Gate::allows('master-jemaat_view')) return false;
+        if (
+            !Gate::allows('master-jemaat_view')
+            && !Gate::allows('mutasi-jemaat_view')
+        ) return false;
 
         $gereja = $user->MhGereja;
         if ($gereja->count() === 0) return false;
@@ -47,7 +51,8 @@ class JemaatPolicy
      */
     public function create(User $user)
     {
-        return Gate::allows('master-jemaat_add');
+        return Gate::allows('master-jemaat_add')
+            || Gate::allows('mutasi-jemaat_add');
     }
 
     /**
@@ -59,7 +64,10 @@ class JemaatPolicy
      */
     public function update(User $user, MhJemaat $mhJemaat)
     {
-        if (!Gate::allows('master-jemaat_update')) return false;
+        if (
+            !Gate::allows('master-jemaat_update')
+            && !Gate::allows('mutasi-jemaat_update')
+        ) return false;
 
         $gereja = $user->MhGereja;
         if ($gereja->count() === 0) return false;
@@ -76,7 +84,10 @@ class JemaatPolicy
      */
     public function delete(User $user, MhJemaat $mhJemaat)
     {
-        if (!Gate::allows('master-jemaat_delete')) return false;
+        if (
+            !Gate::allows('master-jemaat_delete')
+            && !Gate::allows('mutasi-jemaat_delete')
+        ) return false;
 
         $gereja = $user->MhGereja;
         if ($gereja->count() === 0) return false;
@@ -93,7 +104,10 @@ class JemaatPolicy
      */
     public function restore(User $user, MhJemaat $mhJemaat)
     {
-        if (!Gate::allows('master-jemaat_delete')) return false;
+        if (
+            !Gate::allows('master-jemaat_delete')
+            && !Gate::allows('mutasi-jemaat_delete')
+        ) return false;
 
         $gereja = $user->MhGereja;
         if ($gereja->count() === 0) return false;
@@ -110,7 +124,28 @@ class JemaatPolicy
      */
     public function forceDelete(User $user, MhJemaat $mhJemaat)
     {
-        if (!Gate::allows('master-jemaat_delete')) return false;
+        if (
+            !Gate::allows('master-jemaat_delete')
+            && !Gate::allows('mutasi-jemaat_delete')
+        ) return false;
+
+        $gereja = $user->MhGereja;
+        if ($gereja->count() === 0) return false;
+
+        return $gereja[0]->id == $mhJemaat->mh_gereja_id;
+    }
+
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\MhJemaat  $mhJemaat
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function approve(User $user, MhJemaat $mhJemaat)
+    {
+        if (!Gate::allows('mutasi-jemaat_approve')) return false;
 
         $gereja = $user->MhGereja;
         if ($gereja->count() === 0) return false;
