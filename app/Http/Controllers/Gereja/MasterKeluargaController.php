@@ -37,13 +37,15 @@ class MasterKeluargaController extends Controller
 
         $listKeluarga = MhKeluarga::with("MhGereja")
             ->withCount('MhJemaat')
+            ->filters(request(['search']))
             ->where("mh_gereja_id", "=", $gereja->id)
             ->orderBy("name")
             ->paginate(20);
 
         // dd($listKelompok);
         return view('pages.gereja.master-keluarga.index', [
-            'listKeluarga' => $listKeluarga
+            'listKeluarga' => $listKeluarga,
+            "search" => $request->search
         ]);
     }
 

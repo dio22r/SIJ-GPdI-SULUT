@@ -39,6 +39,11 @@ class MhJemaat extends Model
         return $this->belongsTo(MhGereja::class, 'mh_gereja_id');
     }
 
+    public function MhKeluarga()
+    {
+        return $this->belongsTo(MhKeluarga::class, "mh_keluarga_id");
+    }
+
     public function getAgeAttribute()
     {
         return Carbon::parse($this->date_birth)->age;

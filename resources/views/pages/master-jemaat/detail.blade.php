@@ -49,11 +49,22 @@
                             {{ $jemaat->formatMaritalStatus() }}
                         </dd>
                     </dl>
+                    @if ($jemaat->MhKeluarga)
+                    <dl class="row">
+                        <dt class="col-sm-4">Keluarga</dt>
+                        <dd class="col-sm-8">
+                            <a href="{{ route('master-keluarga.member', ["keluarga" => $jemaat->MhKeluarga]) }}">
+                                {{ $jemaat->MhKeluarga->name }}
+                            </a>
+                        </dd>
+                    </dl>
+                    @endif
                 </div>
             </div>
 
 
             <a href="{{ url()->previous() }}" class="btn btn-sm btn-primary">Kembali</a>
+            <a href="{{ route("master-jemaat.edit", ["jemaat" => $jemaat]) }}" class="btn btn-sm btn-warning">Edit</a>
         </div>
     </div>
 </div>

@@ -10,11 +10,23 @@
             Master Keluarga
         </div>
         <div class="card-body">
-            @can('create', new App\Models\MhKeluarga())
-            <a href="{{ route('master-keluarga.create') }}" class="btn btn-sm btn-primary">
-                <i class="fas fa-plus"></i> Tambah
-            </a>
-            @endcan
+            <div class="row">
+                <div class="col-md-6">
+                    @can('create', new App\Models\MhKeluarga())
+                    <a href="{{ route('master-keluarga.create') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Tambah
+                    </a>
+                    @endcan
+                </div>
+                <div class="col-md-4 offset-md-2">
+                    <form method="GET">
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control" name="search" placeholder="Cari Nama Keluarga" value="{{ $search }}">
+                            <button class="btn btn-outline-primary" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-sm align-middle">
                     <thead>
@@ -59,7 +71,7 @@
                 </table>
             </div>
 
-            {{ $listKeluarga->links() }}
+            {{ $listKeluarga->withQueryString()->links() }}
         </div>
     </div>
 </div>
