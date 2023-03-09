@@ -21,7 +21,8 @@ use App\Http\Controllers\RoleManagementController;
 use App\Http\Controllers\Tools\HutSepekanController;
 use App\Http\Controllers\Tools\MutasiJemaatController;
 use App\Http\Controllers\UserManagementController;
-
+use App\Http\Controllers\Wilayah\TempGerejaController;
+use App\Models\TempGereja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -265,5 +266,22 @@ Route::group([
             Route::put("/{user}", [UserManagementGerejaController::class, 'update'])->name('user-management-gereja.update');
             Route::delete("/{user}", [UserManagementGerejaController::class, 'destroy'])->name('user-management-gereja.destroy');
         });
+    });
+
+
+
+    /**
+     * Route Wilayah
+     */
+
+    Route::group(["prefix" => "/wilayah-temp-gereja", "as" => "wilayah-temp-gereja."], function () {
+        Route::get("/", [TempGerejaController::class, 'index'])->name('index');
+        Route::get("/create", [TempGerejaController::class, 'create'])->name('create');
+        Route::get("/{gereja}", [TempGerejaController::class, 'show'])->name('detail');
+        Route::get("/{gereja}/edit", [TempGerejaController::class, 'edit'])->name('edit');
+
+        Route::post("/", [TempGerejaController::class, 'store'])->name('store');
+        Route::put("/{gereja}", [TempGerejaController::class, 'update'])->name('update');
+        Route::delete("/{gereja}", [TempGerejaController::class, 'destroy'])->name('destroy');
     });
 });
