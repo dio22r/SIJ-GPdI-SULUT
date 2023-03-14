@@ -18,6 +18,7 @@ use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
+use App\Http\Controllers\TempDashboardController;
 use App\Http\Controllers\Tools\HutSepekanController;
 use App\Http\Controllers\Tools\MutasiJemaatController;
 use App\Http\Controllers\UserManagementController;
@@ -273,6 +274,10 @@ Route::group([
     /**
      * Route Wilayah
      */
+
+    Route::group(["prefix" => "/dashboard-temp", "as" => "dashboard-temp."], function () {
+        Route::get("/", [TempDashboardController::class, 'index'])->name('index');
+    });
 
     Route::group(["prefix" => "/wilayah-temp-gereja", "as" => "wilayah-temp-gereja."], function () {
         Route::get("/", [TempGerejaController::class, 'index'])->name('index');
