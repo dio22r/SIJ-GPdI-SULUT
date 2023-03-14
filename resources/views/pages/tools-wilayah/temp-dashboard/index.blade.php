@@ -36,50 +36,74 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
+            <div class="card bg-light mb-4 border-warning">
+                <div class="card-body">
+                    <strong>Total KK</strong> <span class="badge float-end rounded-pill bg-warning text-white">{{ $stats->total_kk ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
             <div class="card bg-light mb-4 border-danger">
                 <div class="card-body">
-                    <strong>Total KK</strong> <span class="badge float-end rounded-pill bg-danger text-white">{{ $stats->total_kk ?? 0 }}</span>
+                    <strong>Total Pria</strong>
+                    <span class="badge float-end rounded-pill bg-danger text-white">
+                        {{ $stats->total_pelprip + $stats->total_pelpap_l + $stats->total_pelrap_l + $stats->total_pelnap_l}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-light mb-4 border-primary">
+                <div class="card-body">
+                    <strong>Total Wanita</strong>
+                    <span class="badge float-end rounded-pill bg-primary text-white">
+                        {{ $stats->total_pelwap + $stats->total_pelpap_p + $stats->total_pelrap_p + $stats->total_pelnap_p}}
+                    </span>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-light mb-4 border-primary">
+            <div class="card bg-light mb-4 border-danger">
                 <div class="card-body">
-                    <strong>PELPRIP</strong> <span class="badge float-end rounded-pill bg-primary text-white">{{ $stats->total_pelprip ?? 0 }}</span>
+                    <strong>PELPRIP</strong> <span class="badge float-end rounded-pill bg-danger text-white">{{ $stats->total_pelprip ?? 0 }}</span>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
+            <div class="card bg-light mb-4 border-primary">
+                <div class="card-body">
+                    <strong>PELWAP</strong> <span class="badge float-end rounded-pill bg-primary text-white">{{ $stats->total_pelwap ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
             <div class="card bg-light mb-4 border-warning">
                 <div class="card-body">
-                    <strong>PELWAP</strong> <span class="badge float-end rounded-pill bg-warning text-white">{{ $stats->total_pelwap ?? 0 }}</span>
+                    <strong>PELPAP</strong> <span class="badge float-end rounded-pill bg-warning text-white">{{ $stats->total_pelpap ?? 0 }}</span>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-light mb-4 border-danger">
                 <div class="card-body">
-                    <strong>PELPAP</strong> <span class="badge float-end rounded-pill bg-danger text-white">{{ $stats->total_pelpap ?? 0 }}</span>
+                    <strong>PELRAP</strong> <span class="badge float-end rounded-pill bg-danger text-white">{{ $stats->total_pelrap ?? 0 }}</span>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-md-6">
             <div class="card bg-light mb-4 border-primary">
                 <div class="card-body">
-                    <strong>PELRAP</strong> <span class="badge float-end rounded-pill bg-primary text-white">{{ $stats->total_pelrap ?? 0 }}</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-light mb-4 border-warning">
-                <div class="card-body">
-                    <strong>PELNAP</strong> <span class="badge float-end rounded-pill bg-warning text-white">{{ $stats->total_pelnap ?? 0 }}</span>
+                    <strong>PELNAP</strong> <span class="badge float-end rounded-pill bg-primary text-white">{{ $stats->total_pelnap ?? 0 }}</span>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 
