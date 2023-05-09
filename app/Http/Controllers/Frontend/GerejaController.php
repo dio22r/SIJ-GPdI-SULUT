@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\MhGereja;
+use App\Models\TempGereja;
 use Illuminate\Http\Request;
 
 class GerejaController extends Controller
 {
     public function index(Request $request)
     {
-        $listGereja = MhGereja::with("MhWilayah", "MhGembala")
+        $listGereja = TempGereja::with("MhWilayah")
             ->where("name", "like", "%" . $request->search . "%")
             ->orderBy("name", "asc")
             ->paginate(20);

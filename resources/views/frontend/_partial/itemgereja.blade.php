@@ -8,6 +8,6 @@
         {{ $gereja->name }}
         @endif
     </td>
-    <td>{{ optional($gereja->MhGembala)->name }}</td>
+    <td>{{ $gereja->pastor_name }}</td>
     <td>{{ $gereja->MhWilayah ? $gereja->MhWilayah->code . " " . $gereja->MhWilayah->name : " - " }}</td>
 </tr>
