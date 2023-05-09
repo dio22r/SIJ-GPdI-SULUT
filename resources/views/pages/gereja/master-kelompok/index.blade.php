@@ -22,6 +22,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Descripsi</th>
+                            <th scope="col">Jumlah Jiwa</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -31,6 +32,7 @@
                             <th scope="row"> {{ $listKelompok->firstItem() + $loop->index }} </th>
                             <td><a href="{{ route('master-kelompok.detail', ['kelompok' => $kelompok->id]) }}">{{ $kelompok->name }}</a></td>
                             <td>{{ $kelompok->desc }}</td>
+                            <td>{{ $kelompok->mh_jemaat_count }}</td>
                             <td>
                                 <form method="POST" action="{{ route('master-kelompok.destroy', ['kelompok' => $kelompok->id]) }}">
                                     @method('DELETE')
@@ -38,11 +40,14 @@
                                     @can('update', $kelompok)
                                     <a href="{{ route('master-kelompok.edit', ['kelompok' => $kelompok->id]) }}" class="btn btn-sm btn-warning"><i class="fas fa-pen"></i></a>
                                     @endcan
-                                    @can('update', $kelompok)
+                                    @can('delete', $kelompok)
                                     <button type="submit" class="btn btn-sm btn-danger ">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     @endcan
+                                    <a href="{{ route('master-kelompok.member', ['kelompok' => $kelompok->id]) }}" class="btn btn-sm btn-info text-white">
+                                        <i class="fas fa-list"></i>
+                                    </a>
                                 </form>
                             </td>
                         </tr>

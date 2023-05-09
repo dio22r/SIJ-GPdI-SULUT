@@ -124,7 +124,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-sm-10 offset-sm-2">
-                        <a href="{{ route('master-gereja.index') }}" class="btn btn-sm btn-light">Kembali</a>
+                        <a href="{{ route('profile-gereja.detail') }}" class="btn btn-sm btn-light">Kembali</a>
                         <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
                     </div>
                 </div>

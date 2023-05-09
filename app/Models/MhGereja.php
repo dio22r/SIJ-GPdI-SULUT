@@ -31,4 +31,11 @@ class MhGereja extends Model
     {
         return $this->morphToMany(User::class, "ref", "user_role");
     }
+
+    public function scopeFilters($query, $filters)
+    {
+        $query->when($filters["search"] ?? false, function ($query, $search) {
+            return $query->where("name", "like", "%" . $search . "%");
+        });
+    }
 }

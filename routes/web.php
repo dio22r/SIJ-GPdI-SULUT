@@ -2,6 +2,8 @@
 
 use App\Helpers\JemaatPushNotifHelper;
 use App\Http\Controllers\Auth\RegisterGerejaController;
+use App\Http\Controllers\Frontend\GerejaController;
+use App\Http\Controllers\Frontend\WilayahController;
 use App\Http\Controllers\Gereja\BiodataGembalaController;
 use App\Http\Controllers\Gereja\MasterKelompokController;
 use App\Http\Controllers\Gereja\MasterKeluargaController;
@@ -16,9 +18,12 @@ use App\Http\Controllers\MenuManagementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Resource\FormController;
 use App\Http\Controllers\RoleManagementController;
+use App\Http\Controllers\TempDashboardController;
 use App\Http\Controllers\Tools\HutSepekanController;
+use App\Http\Controllers\Tools\MutasiJemaatController;
 use App\Http\Controllers\UserManagementController;
-
+use App\Http\Controllers\Wilayah\TempGerejaController;
+use App\Models\TempGereja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -62,13 +67,29 @@ Auth::routes([
 Route::get('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "showRegistrationForm"])->name("register.gembala");
 Route::post('/register/gembala/5526f5323af331ab22dac08d817cfb7520a80fc1', [RegisterGerejaController::class, "register"])->name("register.gembala");
 
+Route::group(["prefix" => "wilayah"], function () {
+    Route::get('/', [WilayahController::class, 'index'])->name('front.wilayah.index');
+    // Route::get('/genslug', [WilayahController::class, 'generateSlug']);
+    Route::get('/{slug}', [WilayahController::class, 'show'])->name('front.wilayah.show');
+    Route::get('/{slug}/feed', [WilayahController::class, 'feed'])->name('front.wilayah.feed');
+});
+
+Route::get('/gereja', [GerejaController::class, 'index'])->name('front.gereja.index');
+
+Route::group(["prefix" => "g"], function () {
+    Route::get('/', function () {
+        return redirect()->route("front.gereja.index");
+    });
+    Route::get('/{slug}', [GerejaController::class, 'show'])->name('front.gereja.show');
+    Route::get('/{slug}/schedule', [GerejaController::class, 'schedule'])->name('front.gereja.schedule');
+    // Route::get('/{slug}/feed', [GerejaController::class, 'feed'])->name('front.gereja.feed');
+});
+
 
 Route::group([
     "middleware" => ["auth"],
     "prefix" => "admin"
 ], function () {
-
-
     Route::get('/', [ProfileController::class, 'show'])->name('home');
     Route::post('/onesignal', [ProfileController::class, 'subscribe'])->name('onesignal.subscribe');
 
@@ -161,6 +182,8 @@ Route::group([
         });
 
         Route::group(["prefix" => "/master-jemaat"], function () {
+            Route::get("/api-search", [MasterJemaatController::class, 'searchJemaat'])->name('master-jemaat.api-search');
+
             Route::get("/", [MasterJemaatController::class, 'index'])->name('master-jemaat.index');
             Route::get("/create", [MasterJemaatController::class, 'create'])->name('master-jemaat.create');
             Route::get("/{jemaat}", [MasterJemaatController::class, 'show'])->name('master-jemaat.detail');
@@ -181,6 +204,11 @@ Route::group([
             Route::post("/", [MasterKelompokController::class, 'store'])->name('master-kelompok.store');
             Route::put("/{kelompok}", [MasterKelompokController::class, 'update'])->name('master-kelompok.update');
             Route::delete("/{kelompok}", [MasterKelompokController::class, 'destroy'])->name('master-kelompok.destroy');
+
+            Route::get("/{kelompok}/member", [MasterKelompokController::class, 'showMember'])->name('master-kelompok.member');
+            Route::get("/{kelompok}/member/search", [MasterKelompokController::class, 'searchMember'])->name('master-kelompok.search');
+            Route::post("/{kelompok}/member", [MasterKelompokController::class, 'addMember'])->name('master-kelompok.member.add');
+            Route::delete("/{kelompok}/member/{member}", [MasterKelompokController::class, 'removeMember'])->name('master-kelompok.member.remove');
         });
 
         Route::group(["prefix" => "/master-keluarga"], function () {
@@ -192,6 +220,11 @@ Route::group([
             Route::post("/", [MasterKeluargaController::class, 'store'])->name('master-keluarga.store');
             Route::put("/{keluarga}", [MasterKeluargaController::class, 'update'])->name('master-keluarga.update');
             Route::delete("/{keluarga}", [MasterKeluargaController::class, 'destroy'])->name('master-keluarga.destroy');
+
+            Route::get("/{keluarga}/member", [MasterKeluargaController::class, 'showMember'])->name('master-keluarga.member');
+            Route::get("/{keluarga}/member/search", [MasterKeluargaController::class, 'searchMember'])->name('master-keluarga.search');
+            Route::post("/{keluarga}/member", [MasterKeluargaController::class, 'addMember'])->name('master-keluarga.member.add');
+            Route::delete("/{keluarga}/member/{member}", [MasterKeluargaController::class, 'removeMember'])->name('master-keluarga.member.remove');
         });
 
         Route::group(["prefix" => "/profile-gereja"], function () {
@@ -205,13 +238,24 @@ Route::group([
             Route::get("/", [BiodataGembalaController::class, 'show'])->name('biodata-gembala.detail');
             Route::get("/edit", [BiodataGembalaController::class, 'edit'])->name('biodata-gembala.edit');
 
-            Route::put("/edit", [BiodataGembalaController::class, 'update'])->name('profile-gembala.update');
+            Route::put("/edit", [BiodataGembalaController::class, 'update'])->name('biodata-gembala.update');
         });
 
         Route::group(["prefix" => "/hut-sepekan"], function () {
             Route::get("/", [HutSepekanController::class, 'index'])->name('hut-sepekan.index');
         });
 
+        Route::group(["prefix" => "/mutasi-jemaat"], function () {
+            Route::get("/", [MutasiJemaatController::class, 'index']);
+            Route::get("/{status}", [MutasiJemaatController::class, 'index'])
+                ->where("status", "(meninggal|pindah|pending)")->name('mutasi-jemaat.index');
+            Route::get("/{jemaat}", [MutasiJemaatController::class, 'show'])->name('mutasi-jemaat.show');
+            Route::get("/{jemaat}/edit", [MutasiJemaatController::class, 'edit'])->name('mutasi-jemaat.edit');
+
+            Route::put("/{jemaat}", [MutasiJemaatController::class, 'update'])->name('mutasi-jemaat.update');
+            Route::post("/{jemaat}", [MutasiJemaatController::class, 'approve'])->name('mutasi-jemaat.approve');
+            Route::get("/{jemaat}/delete", [MutasiJemaatController::class, 'destroy'])->name('mutasi-jemaat.delete');
+        });
 
         Route::group(["prefix" => "/user-management-gereja"], function () {
             Route::get("/", [UserManagementGerejaController::class, 'index'])->name('user-management-gereja.index');
@@ -223,5 +267,26 @@ Route::group([
             Route::put("/{user}", [UserManagementGerejaController::class, 'update'])->name('user-management-gereja.update');
             Route::delete("/{user}", [UserManagementGerejaController::class, 'destroy'])->name('user-management-gereja.destroy');
         });
+    });
+
+
+
+    /**
+     * Route Wilayah
+     */
+
+    Route::group(["prefix" => "/dashboard-temp", "as" => "dashboard-temp."], function () {
+        Route::get("/", [TempDashboardController::class, 'index'])->name('index');
+    });
+
+    Route::group(["prefix" => "/wilayah-temp-gereja", "as" => "wilayah-temp-gereja."], function () {
+        Route::get("/", [TempGerejaController::class, 'index'])->name('index');
+        Route::get("/create", [TempGerejaController::class, 'create'])->name('create');
+        Route::get("/{gereja}", [TempGerejaController::class, 'show'])->name('detail');
+        Route::get("/{gereja}/edit", [TempGerejaController::class, 'edit'])->name('edit');
+
+        Route::post("/", [TempGerejaController::class, 'store'])->name('store');
+        Route::put("/{gereja}", [TempGerejaController::class, 'update'])->name('update');
+        Route::delete("/{gereja}", [TempGerejaController::class, 'destroy'])->name('destroy');
     });
 });

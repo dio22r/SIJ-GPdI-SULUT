@@ -10,9 +10,21 @@
             Daftar Gereja
         </div>
         <div class="card-body">
-            <a href="{{ route('master-gereja.create') }}" class="btn btn-sm btn-primary">
-                <i class="fas fa-plus"></i> Tambah
-            </a>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{{ route('master-gereja.create') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> Tambah
+                    </a>
+                </div>
+                <div class="col-md-4 offset-md-2">
+                    <form method="GET">
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="text" class="form-control" name="search" placeholder="Cari Nama Gereja" value="{{ $search }}">
+                            <button class="btn btn-outline-primary" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <table class="table caption-top">
                 <caption>List of Gereja</caption>
                 <thead>

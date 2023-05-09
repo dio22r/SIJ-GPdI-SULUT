@@ -13,13 +13,13 @@ class MhJemaat extends Model
     use SoftDeletes;
 
     protected $table = 'mh_jemaat';
+
     protected $fillable = [
         "name", "sex", "date_birth", "place_birth", "telp", "address",
         "email", "blood_group", "marital_status", "job", "activity"
     ];
 
-
-
+    protected $hidden = ['nik', 'no_kk',];
     public static $maritalStatus = [
         'S' => "Single",
         'M' => "Menikah",
@@ -27,9 +27,21 @@ class MhJemaat extends Model
         'D' => "Duda"
     ];
 
+    const MUTATION_STATUS = [
+        1 => "Aktif",
+        0 => "Belum Approved",
+        -1 => "Meninggal",
+        -2 => "Pindah"
+    ];
+
     public function MhGereja()
     {
         return $this->belongsTo(MhGereja::class, 'mh_gereja_id');
+    }
+
+    public function MhKeluarga()
+    {
+        return $this->belongsTo(MhKeluarga::class, "mh_keluarga_id");
     }
 
     public function getAgeAttribute()
@@ -60,6 +72,11 @@ class MhJemaat extends Model
         return $this->front_title . " " . explode(" ", $this->name)[0];
     }
 
+    public function getMutationFormatedAttribute()
+    {
+        return self::MUTATION_STATUS[$this->status] ?? " - ";
+    }
+
     public function getAgeByDate(String $date)
     {
         return Carbon::parse($this->date_birth)->diff(Carbon::parse($date))->y;
@@ -70,6 +87,7 @@ class MhJemaat extends Model
         return self::$maritalStatus[$this->marital_status]
             ?? self::$maritalStatus['S'];
     }
+
 
     public function formatSex()
     {
@@ -99,7 +117,8 @@ class MhJemaat extends Model
             return $query->whereHas("MhGereja", function ($query) use ($wilayah) {
                 return $query->where("mh_wilayah_id", "=", $wilayah->id);
             });
-        })->selectRaw("*, DATE_FORMAT(date_birth, '%m-%d') as date")
+        })->where("status", ">", 0)
+            ->selectRaw("*, DATE_FORMAT(date_birth, '%m-%d') as date")
             ->orderByRaw("MONTH(date_birth) ASC")
             ->orderByRaw("DAY(date_birth) ASC")
             ->get();
@@ -116,7 +135,8 @@ class MhJemaat extends Model
                 return $query->whereHas("MhGereja", function ($query) use ($wilayah) {
                     return $query->where("mh_wilayah_id", "=", $wilayah->id);
                 });
-            })->selectRaw("COUNT('id') AS 'total',
+            })->where("status", ">", 0)
+            ->selectRaw("COUNT('id') AS 'total',
                     SUM(CASE WHEN `marital_status` = 'S' AND TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) < 11 THEN 1 ELSE 0 END) AS 'PELNAP',
                     SUM(CASE WHEN `marital_status` = 'S' AND TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) BETWEEN 11 AND 17 THEN 1 ELSE 0 END) AS 'PELRAP',
                     SUM(CASE WHEN `marital_status` = 'S' AND TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) > 18 THEN 1 ELSE 0 END) AS 'PELPAP',
@@ -136,7 +156,8 @@ class MhJemaat extends Model
                 return $query->whereHas("MhGereja", function ($query) use ($wilayah) {
                     return $query->where("mh_wilayah_id", "=", $wilayah->id);
                 });
-            })->selectRaw(
+            })->where("status", ">", 0)
+            ->selectRaw(
                 "SUM(CASE WHEN sex = 'L' THEN 1 ELSE 0 END) AS 'Pria',
                  SUM(CASE WHEN sex = 'P' THEN 1 ELSE 0 END) AS 'Wanita'"
             )->get()->toArray();
@@ -153,7 +174,8 @@ class MhJemaat extends Model
                 return $query->whereHas("MhGereja", function ($query) use ($wilayah) {
                     return $query->where("mh_wilayah_id", "=", $wilayah->id);
                 });
-            })->selectRaw(
+            })->where("status", ">", 0)
+            ->selectRaw(
                 "SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) < 11 THEN 1 ELSE 0 END) AS '<11',
                  SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) BETWEEN 11 AND 17 THEN 1 ELSE 0 END) AS '11-17',
                  SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_birth, CURDATE()) BETWEEN 18 AND 24 THEN 1 ELSE 0 END) AS '18-24',

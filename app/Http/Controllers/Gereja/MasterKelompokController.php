@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Gereja;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KelompokRequest;
+use App\Models\MhJemaat;
 use App\Models\MhKelompok;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,9 +36,9 @@ class MasterKelompokController extends Controller
         $gereja = $this->gereja;
 
         $listKelompok = MhKelompok::with("MhGereja")
-            ->whereHas("MhGereja", function ($query) use ($gereja) {
-                return $query->where('mh_gereja.id', "=", $gereja->id);
-            })->orderBy("name")
+            ->withCount("MhJemaat")
+            ->where("mh_gereja_id", "=", $gereja->id)
+            ->orderBy("name")
             ->paginate(20);
 
         // dd($listKelompok);
@@ -149,5 +150,53 @@ class MasterKelompokController extends Controller
     {
         $kelompok->delete();
         return redirect()->route('master-kelompok.index');
+    }
+
+
+    public function showMember(Request $request, MhKelompok $kelompok)
+    {
+        $this->authorize('view', $kelompok);
+
+        $listJemaat = MhJemaat::query()
+            ->where("mh_kelompok_id", "=", $kelompok->id)
+            ->orderBy("date_birth", "asc")
+            ->paginate(20);
+
+        return view('pages.gereja.master-kelompok.member.show', [
+            "kelompok" => $kelompok,
+            "listJemaat" => $listJemaat
+        ]);
+    }
+
+    public function addMember(Request $request, MhKelompok $kelompok)
+    {
+        $this->authorize('update', $kelompok);
+
+        $request->validate(["id_jemaat" => "required"]);
+
+        $jemaat = MhJemaat::query()
+            ->where("mh_gereja_id", "=", $kelompok->mh_gereja_id)
+            ->where("id", "=", $request->id_jemaat)
+            ->firstOrFail();
+
+        $jemaat->mh_kelompok_id = $kelompok->id;
+        $jemaat->save();
+
+        return redirect()->route('master-kelompok.member', ["kelompok" => $kelompok]);
+    }
+
+    public function removeMember(Request $request, MhKelompok $kelompok, int $member)
+    {
+        $this->authorize('delete', $kelompok);
+
+        $jemaat = MhJemaat::query()
+            ->where("mh_gereja_id", "=", $kelompok->mh_gereja_id)
+            ->where("id", "=", $member)
+            ->firstOrFail();
+
+        $jemaat->mh_kelompok_id = null;
+        $jemaat->save();
+
+        return redirect()->route('master-kelompok.member', ["kelompok" => $kelompok]);
     }
 }

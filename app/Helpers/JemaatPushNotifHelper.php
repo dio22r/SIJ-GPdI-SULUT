@@ -78,7 +78,7 @@ class JemaatPushNotifHelper
                     ->orWhere("send_at", "<=", $date->format("Y-m-d H:i:s"));
             })->where("status", "=", 0)
             ->orderBy("send_at", "asc")
-            ->take(100)->get();
+            ->take(500)->get();
 
         $dataSend = [];
 

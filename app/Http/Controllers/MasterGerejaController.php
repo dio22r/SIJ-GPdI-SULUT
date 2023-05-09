@@ -6,6 +6,7 @@ use App\Http\Requests\GerejaRequest;
 use App\Models\MhGembala;
 use App\Models\MhGereja;
 use App\Models\MhWilayah;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -16,16 +17,18 @@ class MasterGerejaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $listGereja = MhGereja::with("MhWilayah")
-            ->withCount('MhJemaat')->paginate(20);
+        $listGereja = MhGereja::with("MhWilayah", "MhGembala")
+            ->withCount('MhJemaat')
+            ->filters(request(['search']))
+            ->paginate(20);
 
         // dd($listGereja);
-        return view(
-            'pages.master-gereja.index',
-            ['listGereja' => $listGereja]
-        );
+        return view('pages.master-gereja.index', [
+            'listGereja' => $listGereja,
+            'search' => $request->search
+        ]);
     }
 
     /**
@@ -71,13 +74,6 @@ class MasterGerejaController extends Controller
 
             $gereja = new MhGereja();
 
-            if ($request->mh_gembala_nama) {
-                $gembala = new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
             $gereja->slug = Str::slug($request->name, "-");
             $gereja->created_name = $request->name;
             $gereja->name = $request->name;
@@ -89,6 +85,11 @@ class MasterGerejaController extends Controller
             $gereja->mh_wilayah_id = $request->mh_wilayah_id;
             $gereja->latitude = $request->latitude;
             $gereja->longitude = $request->longitude;
+
+            if ($request->mh_gembala_id) {
+                $gembala = MhGembala::find($request->mh_gembala_id);
+                $gereja->MhGembala()->associate($gembala);
+            }
 
             $gereja->save();
         });
@@ -145,14 +146,7 @@ class MasterGerejaController extends Controller
     {
         DB::transaction(function () use ($request, $gereja) {
 
-            if ($request->mh_gembala_nama) {
-                $gembala = $gereja->MhGembala ?? new MhGembala();
-                $gembala->name = $request->mh_gembala_nama;
-                $gembala->save();
-                $gereja->mh_gembala_id = $gembala->id;
-            }
-
-            $gereja->slug = Str::slug($request->name, "-");
+            // $gereja->slug = Str::slug($request->name, "-");
             $gereja->created_name = $request->name;
             $gereja->name = $request->name;
 
@@ -163,6 +157,11 @@ class MasterGerejaController extends Controller
             $gereja->mh_wilayah_id = $request->mh_wilayah_id;
             $gereja->latitude = $request->latitude;
             $gereja->longitude = $request->longitude;
+
+            if ($request->mh_gembala_id) {
+                $gembala = MhGembala::find($request->mh_gembala_id);
+                $gereja->MhGembala()->associate($gembala);
+            }
 
             $gereja->save();
         });
