@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\MhGereja;
 use App\Models\MhWilayah;
+use App\Models\TempGereja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -13,7 +14,7 @@ class WilayahController extends Controller
     public function index(Request $request)
     {
         $listWilayah = MhWilayah::with("MhKabupaten")
-            ->withCount('MhGereja')->paginate(20);
+            ->withCount('TempGereja')->paginate(20);
 
         return view(
             "frontend.wilayah.index",
@@ -26,7 +27,7 @@ class WilayahController extends Controller
         $wilayah = MhWilayah::where("slug", "=", $slug)
             ->firstOrFail();
 
-        $listGereja = MhGereja::with("MhWilayah", "MhGembala")
+        $listGereja = TempGereja::with("MhWilayah")
             ->where("mh_wilayah_id", "=", $wilayah->id)
             ->get();
 

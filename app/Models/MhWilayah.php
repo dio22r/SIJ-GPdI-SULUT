@@ -21,4 +21,9 @@ class MhWilayah extends Model
     {
         return $this->hasMany(MhGereja::class);
     }
+
+    public function TempGereja()
+    {
+        return $this->hasMany(TempGereja::class, "mh_wilayah_id");
+    }
 }

@@ -33,7 +33,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $wilayah->MhKabupaten->name }}</td>
-                                <td>{{ $wilayah->mh_gereja_count }}</td>
+                                <td>{{ $wilayah->temp_gereja_count }}</td>
                             </tr>
                             @endForeach
                         </tbody>
