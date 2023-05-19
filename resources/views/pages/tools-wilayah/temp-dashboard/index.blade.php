@@ -15,8 +15,8 @@
                 <div class="row">
                     <div class="col-auto">
                         <select name="filter" class="form-select" id="input-filter">
-                            <option value="wilayah" @if(request('filter') == "wilayah") selected @endif>Wilayah</option>
-                            <option value="all" @if(request('filter') == "all") selected @endif>All</option>
+                            <option value="wilayah" @if(request('filter')=="wilayah" ) selected @endif>Wilayah</option>
+                            <option value="all" @if(request('filter')=="all" ) selected @endif>All</option>
                         </select>
                     </div>
                     <div class="col-auto">
@@ -100,6 +100,53 @@
                 <div class="card-body">
                     <strong>PELNAP</strong> <span class="badge float-end rounded-pill bg-primary text-white">{{ $stats->total_pelnap ?? 0 }}</span>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-light mb-4 border-warning">
+                <div class="card-body">
+                    <strong>GEMBALA</strong> <span class="badge float-end rounded-pill bg-warning text-white">{{ $totalGembala ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-light mb-4 border-danger">
+                <div class="card-body">
+                    <strong>JEMAAT</strong>
+                    <span class="badge float-end rounded-pill bg-danger text-white">{{ $stats->total ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="mt-4">JEMAAT TIAP KABUPATEN</h5>
+
+
+    <div class="row">
+        <div class="col-9">
+            <div class="row">
+                @foreach($listKabupaten as $key => $kabupaten)
+                @php
+                $arrColor = [
+                "warning", "danger", "primary"
+                ];
+                $colorClass = $arrColor[$key % 3];
+                @endphp
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card bg-light mb-4 border-{{ $colorClass }}">
+                        <div class="card-body">
+                            <strong>{{ strtoupper($kabupaten->nick_name) }}</strong>
+                            <span class="badge float-end rounded-pill bg-{{ $colorClass }} text-white">{{ $kabupaten->total ?? 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
             </div>
         </div>
     </div>
