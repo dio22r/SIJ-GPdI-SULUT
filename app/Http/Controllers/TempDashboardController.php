@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GerejaRequest;
 use App\Http\Requests\TempGerejaRequest;
+use App\Models\MhKabupaten;
 use App\Models\TempGereja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,8 +33,24 @@ class TempDashboardController extends Controller
                 ((SUM(pelnap_l) + SUM(pelnap_p)) + (SUM(pelrap_l) + SUM(pelrap_p)) + (SUM(pelpap_l) + SUM(pelpap_p)) + SUM(pelprip) + SUM(pelwap)) as total
             ")->first();
 
+        $totalGembala = TempGereja::query()
+            ->when($request->filter != 'all', function ($query) use ($wilayah) {
+                $query->where("mh_wilayah_id", $wilayah->id);
+            })
+            ->where("pastor_name", "!=", "")
+            ->count();
+
+        $listKabupaten = MhKabupaten::query()
+            ->leftJoin("mh_wilayah", "mh_kabupaten.id", "=", "mh_wilayah.mh_kabupaten_id")
+            ->leftJoin("temp_gereja", "mh_wilayah.id", "=", "temp_gereja.mh_wilayah_id")
+            ->select("mh_kabupaten.id", "mh_kabupaten.nick_name", DB::raw("SUM(temp_gereja.total) as total"))
+            ->groupBy("mh_kabupaten.id", "mh_kabupaten.nick_name")
+            ->get();
+
         return view('pages.tools-wilayah.temp-dashboard.index', [
             'stats' => $listStatistik,
+            'totalGembala' => $totalGembala,
+            'listKabupaten' => $listKabupaten
         ]);
     }
 

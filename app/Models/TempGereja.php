@@ -27,6 +27,7 @@ class TempGereja extends Model
         "pelprip",
         "pelwap",
         "kk",
+        "total"
     ];
 
     public function MhWilayah()
